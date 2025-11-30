@@ -18,3 +18,12 @@ ARSLM is a sequential language model combining adaptive recurrent networks and a
 git clone https://github.com/benpolyseq/ARSLM.git
 cd ARSLM
 pip install -r requirements.txt
+from ARSLM import ARSLM
+
+# Exemple d'initialisation
+model = ARSLM()
+
+# Exemple d'entraînement ou de prédiction
+output = model.predict(sequence_data)
+print(output)
+pip install -r requirements.txt
