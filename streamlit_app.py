@@ -4,13 +4,12 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 # ============================
-# 1) ARSLM Cellule
+# 1) ARSLM Cellule (très simple)
 # ============================
 class ARSCell(nn.Module):
     def __init__(self, hidden_size, input_size):
         super().__init__()
         self.hidden_size = hidden_size
-        self.input_size = input_size
         self.candidate_mlp = nn.Sequential(
             nn.Linear(hidden_size*2 + input_size, hidden_size),
             nn.ReLU(),
@@ -20,9 +19,8 @@ class ARSCell(nn.Module):
             nn.Linear(hidden_size*2 + input_size, 1),
             nn.Sigmoid()
         )
-        self.dropout = nn.Dropout(0.1)
         self.layer_norm = nn.LayerNorm(hidden_size)
-        
+
     def forward(self, x_embed, h_prev, h_prev2):
         context = torch.cat([h_prev, h_prev2, x_embed], dim=-1)
         candidate = self.candidate_mlp(context)
@@ -30,22 +28,16 @@ class ARSCell(nn.Module):
         residual = 0.1 * x_embed
         h_next = h_prev + gate * candidate + residual
         h_next = self.layer_norm(h_next)
-        h_next = self.dropout(h_next)
         return h_next
 
 # ============================
-# 2) ARSLM Model
+# 2) Modèle ARSLM léger
 # ============================
 class ARSLMModel(nn.Module):
     def __init__(self, vocab_size, emb_dim=32, hidden_size=64, num_layers=2):
         super().__init__()
         self.emb = nn.Embedding(vocab_size, emb_dim)
         self.layers = nn.ModuleList([ARSCell(hidden_size, emb_dim) for _ in range(num_layers)])
-        self.attention = nn.Sequential(
-            nn.Linear(hidden_size, hidden_size),
-            nn.Tanh(),
-            nn.Linear(hidden_size, 1)
-        )
         self.head = nn.Linear(hidden_size, vocab_size)
         self.num_layers = num_layers
         self.hidden_size = hidden_size
@@ -55,7 +47,6 @@ class ARSLMModel(nn.Module):
         x = self.emb(input_ids)
         h_prev = [torch.zeros(batch_size, self.hidden_size) for _ in range(self.num_layers)]
         h_prev2 = [torch.zeros(batch_size, self.hidden_size) for _ in range(self.num_layers)]
-        all_hiddens = [[] for _ in range(self.num_layers)]
         outputs = []
 
         for t in range(seq_len):
@@ -64,74 +55,61 @@ class ARSLMModel(nn.Module):
                 h_next = self.layers[l](x_t, h_prev[l], h_prev2[l])
                 h_prev2[l] = h_prev[l]
                 h_prev[l] = h_next
-                all_hiddens[l].append(h_next)
                 x_t = h_next
-
-            # Attention sur dernière couche
-            last_layer_h = all_hiddens[-1][-1]
-            hist = torch.stack(all_hiddens[-1], dim=1)
-            scores = self.attention(hist).squeeze(-1)
-            weights = F.softmax(scores, dim=1)
-            context = torch.sum(weights.unsqueeze(-1) * hist, dim=1)
-            attended_h = last_layer_h + context
-            logits = self.head(attended_h)
+            logits = self.head(h_prev[-1])
             outputs.append(logits.unsqueeze(1))
         return torch.cat(outputs, dim=1)
 
 # ============================
-# 3) Wrapper MicroLLM
+# 3) Wrapper MicroLLM pour démo
 # ============================
-class MicroLLM:
-    def __init__(self, vocab):
-        self.vocab = vocab
-        self.inv_vocab = {i:w for w,i in vocab.items()}
-        self.model = ARSLMModel(vocab_size=len(vocab))
-        self.device = "cpu"  # Streamlit Cloud CPU
+class MicroLLMDemo:
+    def __init__(self):
+        # Vocabulaire ultra simple
+        self.vocab = {"bonjour":0, "merci":1, "client":2, "achat":3, "service":4, "STOP":5}
+        self.inv_vocab = {i:w for w,i in self.vocab.items()}
+        self.model = ARSLMModel(vocab_size=len(self.vocab))
+        self.device = "cpu"
         self.model.to(self.device)
 
-    def encode(self, txt):
-        tokens = [self.vocab.get(w,0) for w in txt.lower().split()]
+    def encode(self, text):
+        tokens = [self.vocab.get(w.lower(),0) for w in text.split()]
         return torch.tensor([tokens], dtype=torch.long)
 
     def decode(self, toks):
         return " ".join(self.inv_vocab.get(int(t), "<unk>") for t in toks)
 
     @torch.no_grad()
-    def generate(self, prompt, max_tokens=20):
+    def generate(self, prompt):
         x = self.encode(prompt).to(self.device)
         logits = self.model(x)
         toks = torch.argmax(logits, dim=-1)[0]
         return self.decode(toks)
 
 # ============================
-# 4) Streamlit App
+# 4) Streamlit interface
 # ============================
-st.set_page_config(page_title="MicroLLM Studio ARSLM", layout="wide")
-st.title("💡 MicroLLM Studio ARSLM - Chat privé")
+st.set_page_config(page_title="MicroLLM Démo", layout="wide")
+st.title("🚀 MicroLLM Studio - Démo ARSLM")
 
-# Initialiser vocabulaire simple pour la démo
-vocab = {"bonjour":1, "merci":2, "client":3, "achat":4, "service":5, "STOP":6}
-
-# Stockage de l'instance et historique
+# Initialiser le MicroLLM de démonstration
 if 'llm' not in st.session_state:
-    st.session_state['llm'] = MicroLLM(vocab)
+    st.session_state['llm'] = MicroLLMDemo()
 if 'history' not in st.session_state:
     st.session_state['history'] = []
 
 llm = st.session_state['llm']
 
-# Zone de chat
 with st.form("chat_form", clear_on_submit=True):
     user_input = st.text_input("💬 Votre message")
     submit = st.form_submit_button("Envoyer")
 
 if submit and user_input:
-    # Génération du modèle
     response = llm.generate(user_input)
     st.session_state['history'].append(("Vous", user_input))
     st.session_state['history'].append(("IA", response))
 
-# Affichage de l'historique
+# Afficher l'historique du chat
 for speaker, msg in st.session_state['history']:
     if speaker == "Vous":
         st.markdown(f"**{speaker}:** {msg}")
