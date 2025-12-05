@@ -1,3 +1,21 @@
+# Indique à pip où trouver les wheel CPU pour PyTorch
+-f https://download.pytorch.org/whl/cpu/torch_stable.html
+
+# Librairies principales
 streamlit==1.27.0
-torch==2.0.1+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
-transformers==4.40.0
+torch==2.0.1+cpu
+torchvision==0.15.2+cpu
+torchaudio==2.0.2+cpu
+
+# Librairies supplémentaires pour ton projet
+numpy==1.26.4
+pandas==2.1.1
+scikit-learn==1.3.1
+matplotlib==3.8.1
+seaborn==0.12.2
+
+# Pour un rendu amélioré dans Streamlit
+rich==14.2.0
+markdown-it-py==4.0.0
+mdurl==0.1.2
+pygments==2.19.2
