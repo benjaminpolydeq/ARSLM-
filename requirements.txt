@@ -1,11 +1,3 @@
-# Streamlit pour l'interface
 streamlit==1.30.0
-
-# PyTorch CPU-only pour MicroLLM / ARSLM
-torch==2.2.0+cpu
-
-# Numpy requis pour PyTorch
 numpy
-
-# Optionnel : pour gérer les fichiers et le texte
-pandas
+torch==2.2.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
