@@ -1,44 +1,16 @@
-# import torch  # désactivé
-# import torch.nn as nn  # désactivé
+from transformers import BertTokenizer
 import random
-# Configuration de la page
-st.set_page_config(page_title="ARSLM Prototype", page_icon="🤖", layout="centered")
-st.title("🤖 ARSLM — Prototype LLM")
-st.markdown("Testez le modèle ARSLM avec du texte ou un fichier `.txt`")
 
-# Initialisation du modèle
-model = ARSLM()
+class ARSLM:
+    def __init__(self):
+        self.tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
 
-# Sidebar pour options d'entrée
-st.sidebar.header("Options d'entrée")
-input_method = st.sidebar.radio("Mode d'entrée", ["Texte direct", "Fichier .txt"])
-
-text = ""
-
-# Choix de l'entrée
-if input_method == "Texte direct":
-    text = st.text_area("Entrez votre texte ici", height=200)
-else:
-    uploaded_file = st.file_uploader("Uploader un fichier `.txt`", type=["txt"])
-    if uploaded_file is not None:
-        try:
-            text = uploaded_file.read().decode("utf-8")
-        except Exception as e:
-            st.error(f"Erreur lors de la lecture du fichier : {e}")
-
-# Bouton de prédiction
-if st.button("Prédire"):
-    if text.strip() == "":
-        st.warning("Aucun texte fourni.")
-    else:
-        try:
-            result = model.predict([text])
-            st.success("Résultat du modèle :")
-            st.write(result)
-        except Exception as e:
-            st.error(f"Erreur lors de la prédiction : {e}")
-
-# Footer
-st.markdown("---")
-st.markdown("ARSLM Prototype — Développé par Benjamin Kama")
-Add streamlit_app.py for Streamlit deployment
+    def predict(self, sequences):
+        results = []
+        for seq in sequences:
+            random_score = round(random.uniform(0, 1), 4)
+            results.append({
+                "sequence": seq,
+                "prediction": random_score
+            })
+        return results
