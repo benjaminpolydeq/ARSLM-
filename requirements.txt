@@ -1,2 +1,1 @@
-streamlit
-transformers==4.40.0
+streamlit==1.37.0
