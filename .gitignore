@@ -1,0 +1,10 @@
+# Fichiers Python compilés
+__pycache__/
+*.pyc
+
+# Dossiers et fichiers virtuels
+venv/
+.env
+
+# Fichiers de licences locales
+licences.json
