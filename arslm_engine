@@ -1,0 +1,297 @@
+"""
+ARSLM prototype (toy engine)
+Author: Benjamin Amaad Kama (concept)
+Requirements: Python 3.8+, PyTorch, transformers
+
+This is a minimal, fully-contained prototype of an ARS-based language model.
+It is for research/experimentation: lightweight, explainable, and extendable.
+"""
+
+import math
+import random
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from typing import List
+from transformers import BertTokenizer
+from torch.optim.lr_scheduler import StepLR
+import os
+
+# ----------------------------
+# Advanced Tokenizer (using transformers)
+# ----------------------------
+class AdvancedTokenizer:
+    def __init__(self, vocab_file=None):
+        if vocab_file:
+             self.tokenizer = BertTokenizer(vocab_file)
+        else:
+             self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+
+        self.vocab = list(self.tokenizer.vocab.keys())
+        self.stoi = self.tokenizer.vocab
+        self.itos = {i: w for w, i in self.stoi.items()}
+
+        self.pad_token = self.tokenizer.pad_token
+        self.unk_token = self.tokenizer.unk_token
+        self.bos_token = self.tokenizer.cls_token
+        self.eos_token = self.tokenizer.sep_token
+
+        self.pad_token_id = self.tokenizer.pad_token_id
+        self.unk_token_id = self.tokenizer.unk_token_id
+        self.bos_token_id = self.tokenizer.cls_token_id
+        self.eos_token_id = self.tokenizer.sep_token_id
+
+    def encode(self, text: str) -> List[int]:
+        return self.tokenizer.encode(text, add_special_tokens=False)
+
+    def decode(self, ids: List[int]) -> str:
+        return self.tokenizer.decode(ids, skip_special_tokens=True)
+
+    def __len__(self):
+        return len(self.vocab)
+
+# ----------------------------
+# ARSCell: core adaptive cell
+# ----------------------------
+class ARSCell(nn.Module):
+    def __init__(self, emb_dim: int, hidden_dim: int, dropout_prob: float = 0.1):
+        super().__init__()
+        self.hidden_dim = hidden_dim
+        self.candidate_mlp = nn.Sequential(
+            nn.Linear(hidden_dim*2 + emb_dim, hidden_dim*2),
+            nn.ReLU(),
+            nn.Linear(hidden_dim*2, hidden_dim)
+        )
+        self.gate_net = nn.Sequential(
+            nn.Linear(hidden_dim*2 + emb_dim, hidden_dim),
+            nn.Tanh(),
+            nn.Linear(hidden_dim, 1),
+            nn.Sigmoid()
+        )
+        self.res_proj = nn.Linear(emb_dim, hidden_dim)
+        self.dropout = nn.Dropout(dropout_prob)
+
+    def forward(self, h_prev2, h_prev1, x_embed):
+        diff = h_prev1 - h_prev2
+        ctx = torch.cat([h_prev1, h_prev2, x_embed], dim=-1)
+        candidate = self.candidate_mlp(ctx)
+        gate = self.gate_net(ctx).squeeze(-1)
+        residual = self.res_proj(x_embed)
+        h_t = h_prev1 + gate.unsqueeze(-1) * candidate + 0.1 * residual
+        h_t = self.dropout(h_t)
+        h_t = F.layer_norm(h_t, (self.hidden_dim,))
+        return h_t, gate
+
+# ----------------------------
+# ARSLM model: embed -> ARSCell(s) -> attention -> head
+# ----------------------------
+class ARSLM(nn.Module):
+    def __init__(self, tokenizer, emb_dim=64, hidden_dim=128, num_layers=2):
+        super().__init__()
+        self.tokenizer = tokenizer
+        self.vocab_size = len(tokenizer)
+        self.num_layers = num_layers
+        self.emb = nn.Embedding(self.vocab_size, emb_dim)
+        self.cells = nn.ModuleList([ARSCell(emb_dim if i == 0 else hidden_dim, hidden_dim, dropout_prob=0.1) for i in range(num_layers)])
+        self.attention = nn.Sequential(
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.Tanh(),
+            nn.Linear(hidden_dim, 1)
+        )
+        self.head = nn.Linear(hidden_dim, self.vocab_size)
+
+    def forward(self, input_ids):
+        bsz, seq_len = input_ids.shape
+        emb = self.emb(input_ids)
+        device = emb.device
+        hidden_dim = self.cells[0].hidden_dim
+        h_prev2_list = [torch.zeros(bsz, hidden_dim, device=device) for _ in range(self.num_layers)]
+        h_prev1_list = [torch.zeros(bsz, hidden_dim, device=device) for _ in range(self.num_layers)]
+        all_last_layer_hidden_states = []
+        logits = []
+        gates = []
+        for t in range(seq_len):
+            x_t = emb[:, t, :]
+            h_t_input = x_t
+            current_layer_hidden_states = []
+            for layer in range(self.num_layers):
+                cell = self.cells[layer]
+                h_prev2 = h_prev2_list[layer]
+                h_prev1 = h_prev1_list[layer]
+                if layer > 0:
+                    h_t_input = current_layer_hidden_states[-1]
+                h_t, gate = cell(h_prev2, h_prev1, h_t_input)
+                current_layer_hidden_states.append(h_t)
+                h_prev2_list[layer] = h_prev1
+                h_prev1_list[layer] = h_t
+                if layer == self.num_layers - 1:
+                    gates.append(gate.unsqueeze(1))
+            last_layer_h_t = current_layer_hidden_states[-1]
+            all_last_layer_hidden_states.append(last_layer_h_t.unsqueeze(1))
+            last_layer_history = torch.cat(all_last_layer_hidden_states, dim=1)
+            query = last_layer_h_t.unsqueeze(1)
+            scores = self.attention(last_layer_history)
+            attention_weights = F.softmax(scores, dim=1)
+            context_vector = torch.sum(attention_weights * last_layer_history, dim=1)
+            attended_h_t = last_layer_h_t + context_vector
+            logit = self.head(attended_h_t)
+            logits.append(logit.unsqueeze(1))
+        logits = torch.cat(logits, dim=1)
+        gates = torch.cat(gates, dim=1)
+        return logits, gates
+
+    @torch.no_grad()
+    def generate(self, idx, max_new_tokens=20, temperature=1.0, top_k=None):
+        self.eval()
+        bsz, seq_len = idx.shape
+        device = next(self.parameters()).device
+        hidden_dim = self.cells[0].hidden_dim
+        h_prev2_list = [torch.zeros(bsz, hidden_dim, device=device) for _ in range(self.num_layers)]
+        h_prev1_list = [torch.zeros(bsz, hidden_dim, device=device) for _ in range(self.num_layers)]
+        all_last_layer_hidden_states = []
+        input_ids = idx.clone()
+        emb = self.emb(input_ids)
+        for t in range(seq_len):
+            x_t = emb[:,t,:]
+            h_t_input = x_t
+            current_layer_hidden_states = []
+            for layer in range(self.num_layers):
+                cell = self.cells[layer]
+                h_prev2 = h_prev2_list[layer]
+                h_prev1 = h_prev1_list[layer]
+                if layer > 0:
+                    h_t_input = current_layer_hidden_states[-1]
+                h_t, _ = cell(h_prev2, h_prev1, h_t_input)
+                current_layer_hidden_states.append(h_t)
+                h_prev2_list[layer] = h_prev1
+                h_prev1_list[layer] = h_t
+                if layer == self.num_layers - 1:
+                    all_last_layer_hidden_states.append(h_t.unsqueeze(1))
+        out_ids = input_ids.tolist()
+        for _ in range(max_new_tokens):
+            last_token_ids = torch.tensor([ids[-1] for ids in out_ids], dtype=torch.long, device=device).unsqueeze(1)
+            x_embed = self.emb(last_token_ids).squeeze(1)
+            h_t_input = x_embed
+            current_layer_hidden_states = []
+            for layer in range(self.num_layers):
+                cell = self.cells[layer]
+                h_prev2 = h_prev2_list[layer]
+                h_prev1 = h_prev1_list[layer]
+                if layer > 0:
+                    h_t_input = current_layer_hidden_states[-1]
+                h_t, _ = cell(h_prev2, h_prev1, h_t_input)
+                current_layer_hidden_states.append(h_t)
+                h_prev2_list[layer] = h_prev1
+                h_prev1_list[layer] = h_t
+                if layer == self.num_layers - 1:
+                    all_last_layer_hidden_states.append(h_t.unsqueeze(1))
+            last_layer_h_t = current_layer_hidden_states[-1]
+            last_layer_history = torch.cat(all_last_layer_hidden_states, dim=1)
+            query = last_layer_h_t.unsqueeze(1)
+            scores = self.attention(last_layer_history)
+            attention_weights = F.softmax(scores, dim=1)
+            context_vector = torch.sum(attention_weights * last_layer_history, dim=1)
+            attended_h_t = last_layer_h_t + context_vector
+            logits = self.head(attended_h_t) / max(1e-6, temperature)
+            if top_k is not None:
+                top_k = min(max(top_k, 1), logits.size(-1))
+                v, _ = torch.topk(logits, top_k)
+                logits[logits < v[:, [-1]]] = -float('Inf')
+            probs = F.softmax(logits, dim=-1)
+            next_token = torch.multinomial(probs, num_samples=1).squeeze(-1)
+            for i in range(bsz):
+                out_ids[i].append(int(next_token[i].item()))
+            new_token_embed = self.emb(next_token.unsqueeze(1)).squeeze(1)
+            h_t_input_next = new_token_embed
+            current_layer_hidden_states_next = []
+            for layer in range(self.num_layers):
+                cell = self.cells[layer]
+                h_prev2_l = h_prev2_list[layer]
+                h_prev1_l = h_prev1_list[layer]
+                if layer > 0:
+                    h_t_input_next = current_layer_hidden_states_next[-1]
+                h_t_next_l, _ = cell(h_prev2_l, h_prev1_l, h_t_input_next)
+                current_layer_hidden_states_next.append(h_t_next_l)
+                h_prev2_list[layer] = h_prev1_list[layer]
+                h_prev1_list[layer] = h_t_next_l
+                if layer == self.num_layers - 1:
+                    all_last_layer_hidden_states.append(h_t_next_l.unsqueeze(1))
+        return out_ids
+
+def collate_batch(tokenizer, texts: List[str], device):
+    encoded = []
+    for t in texts:
+        ids = [tokenizer.bos_token_id] + tokenizer.encode(t) + [tokenizer.eos_token_id]
+        encoded.append(torch.tensor(ids, dtype=torch.long, device=device))
+    max_len = max([x.size(0) for x in encoded])
+    batch = torch.full((len(encoded), max_len), tokenizer.pad_token_id, dtype=torch.long, device=device)
+    for i, x in enumerate(encoded):
+        batch[i, :x.size(0)] = x
+    return batch
+
+def train_demo():
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    corpus_file = "/tmp/large_corpus.txt"
+    texts = []
+    if os.path.exists(corpus_file):
+        print(f"Loading corpus from {corpus_file}...")
+        with open(corpus_file, 'r', encoding='utf-8') as f:
+            for i, line in enumerate(f):
+                if i < 1000:
+                    texts.append(line.strip())
+                else:
+                    break
+        print(f"Loaded {len(texts)} lines.")
+    else:
+        print(f"Corpus file not found at {corpus_file}. Using a small toy corpus instead.")
+        texts = [
+            "hello world this is ars",
+            "the system adapts to its history",
+            "benpolyseq demonstrates adaptive sequences",
+            "ars can inspire new network protocols",
+            "self optimizing systems are possible"
+        ]
+    tokenizer = AdvancedTokenizer()
+    vocab_size = len(tokenizer)
+    model = ARSLM(tokenizer, emb_dim=64, hidden_dim=128, num_layers=2).to(device)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3)
+    scheduler = StepLR(optimizer, step_size=50, gamma=0.5)
+    loss_fn = nn.CrossEntropyLoss(ignore_index=tokenizer.pad_token_id)
+    n_epochs = 200
+    batch = collate_batch(tokenizer, texts, device)
+    inputs = batch[:, :-1]
+    targets = batch[:, 1:]
+    if inputs.numel() == 0:
+        print("No training data loaded. Skipping training.")
+        return model, tokenizer
+    for epoch in range(n_epochs):
+        model.train()
+        logits, gates = model(inputs)
+        b, seq, v = logits.shape
+        loss = loss_fn(logits.view(b*seq, v), targets.reshape(b*seq))
+        optimizer.zero_grad()
+        loss.backward()
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        optimizer.step()
+        scheduler.step()
+        if (epoch+1) % 50 == 0 or epoch==0:
+            print(f"Epoch {epoch+1}/{n_epochs} — loss: {loss.item():.4f}")
+            print(f"Current learning rate: {scheduler.get_last_lr()[0]:.6f}")
+    print("\n=== Evaluation ===")
+    model.eval()
+    with torch.no_grad():
+        logits, _ = model(inputs)
+        loss = loss_fn(logits.view(-1, v), targets.reshape(-1))
+        perplexity = torch.exp(loss)
+        print(f"Perplexity on training data: {perplexity.item():.4f}")
+    context = "hello world"
+    idx = torch.tensor([ [tokenizer.bos_token_id] + tokenizer.encode(context) ], dtype=torch.long, device=device)
+    out_ids = model.generate(idx, max_new_tokens=15, temperature=1.0, top_k=50)[0]
+    print("\n=== Generated ===")
+    print(tokenizer.decode(out_ids))
+    return model, tokenizer
+
+if __name__ == "__main__":
+    random.seed(0)
+    torch.manual_seed(0)
+    model, tokenizer = train_demo()
