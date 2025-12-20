@@ -1,0 +1,550 @@
+# 🚀 Guide d'Installation Complet ARSLM
+
+## 📋 Vue d'Ensemble
+
+Ce guide vous accompagne pas à pas pour migrer et installer le nouveau dépôt ARSLM structuré.
+
+---
+
+## ⚠️ Avant de Commencer
+
+### Prérequis
+
+- Git installé
+- Python 3.8+ installé
+- Docker et Docker Compose (optionnel)
+- 8GB RAM minimum
+- 5GB d'espace disque
+
+### Sauvegarde
+
+**IMPORTANT**: Créez une sauvegarde avant de commencer !
+
+```bash
+cd votre-repo-arslm
+git checkout -b backup-$(date +%Y%m%d)
+git push origin backup-$(date +%Y%m%d)
+```
+
+---
+
+## 🎯 Option 1: Migration Automatique (Recommandé)
+
+### Étape 1: Télécharger le Script de Migration
+
+```bash
+# Dans votre dépôt ARSLM
+cd ARSLM
+
+# Télécharger le script
+curl -O https://raw.githubusercontent.com/benjaminpolydeq/ARSLM/main/scripts/migrate_repository.py
+
+# Rendre exécutable
+chmod +x migrate_repository.py
+```
+
+### Étape 2: Exécuter la Migration
+
+```bash
+python migrate_repository.py
+```
+
+Le script va :
+- ✅ Créer une branche de backup
+- ✅ Créer la nouvelle structure
+- ✅ Migrer les fichiers existants
+- ✅ Créer les fichiers de configuration
+- ✅ Nettoyer les anciens fichiers
+
+### Étape 3: Vérifier la Migration
+
+```bash
+# Vérifier la structure
+tree -L 3 -I '__pycache__|*.pyc'
+
+# Devrait afficher:
+# .
+# ├── src/
+# │   ├── arslm/
+# │   ├── api/
+# │   └── frontend/
+# ├── tests/
+# ├── docs/
+# ├── config/
+# └── ...
+```
+
+---
+
+## 🛠️ Option 2: Migration Manuelle
+
+### Étape 1: Créer la Structure
+
+```bash
+# Créer tous les dossiers
+mkdir -p src/{arslm/{core,training,inference,utils},api/{routes,schemas,middleware},frontend/{pages,components}}
+mkdir -p tests/{unit,integration,fixtures}
+mkdir -p docs config scripts data/sample models/checkpoints notebooks docker
+mkdir -p .github/workflows .github/ISSUE_TEMPLATE
+```
+
+### Étape 2: Créer les Fichiers __init__.py
+
+```bash
+# Pour tous les packages Python
+find src tests -type d -exec touch {}/__init__.py \;
+```
+
+### Étape 3: Migrer les Fichiers Existants
+
+```bash
+# Sauvegarder et déplacer
+cp ARSLM.py src/arslm/core/model.py
+cp streamlit_app.py src/frontend/app.py
+cp main.py src/api/main.py
+
+# Si vous avez d'autres fichiers, adaptez selon besoin
+```
+
+### Étape 4: Créer les Fichiers de Configuration
+
+#### `.gitignore`
+
+```bash
+cat > .gitignore << 'EOF'
+# Python
+__pycache__/
+*.py[cod]
+.Python
+build/
+dist/
+*.egg-info/
+venv/
+
+# IDEs
+.vscode/
+.idea/
+
+# Environment
+.env
+
+# Logs
+*.log
+logs/
+
+# Models & Data
+models/*.pt
+data/processed/
+EOF
+```
+
+#### `.env.example`
+
+```bash
+cat > .env.example << 'EOF'
+# Application
+APP_NAME=ARSLM
+ENVIRONMENT=development
+
+# API
+API_HOST=0.0.0.0
+API_PORT=8000
+
+# Model
+MODEL_PATH=./models/arslm_base.pt
+EOF
+```
+
+---
+
+## 📦 Installation des Dépendances
+
+### Méthode 1: Avec pip
+
+```bash
+# Créer environnement virtuel
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# Installer le package en mode développement
+pip install -e ".[dev]"
+
+# Ou installer depuis requirements
+pip install -r requirements.txt
+pip install -r requirements-dev.txt
+```
+
+### Méthode 2: Avec Poetry (Recommandé)
+
+```bash
+# Installer Poetry
+curl -sSL https://install.python-poetry.org | python3 -
+
+# Installer dépendances
+poetry install
+
+# Activer environnement
+poetry shell
+```
+
+---
+
+## 🐳 Installation avec Docker
+
+### Étape 1: Build l'Image
+
+```bash
+# Build l'image Docker
+docker build -t arslm:latest -f docker/Dockerfile .
+```
+
+### Étape 2: Lancer avec Docker Compose
+
+```bash
+# Copier le fichier d'environnement
+cp .env.example .env
+
+# Éditer les variables si nécessaire
+nano .env
+
+# Démarrer tous les services
+docker-compose -f docker/docker-compose.yml up -d
+
+# Vérifier le statut
+docker-compose ps
+```
+
+### Services Disponibles
+
+- **API**: http://localhost:8000
+- **Frontend**: http://localhost:8501
+- **PostgreSQL**: localhost:5432
+- **Redis**: localhost:6379
+
+---
+
+## ✅ Vérification de l'Installation
+
+### 1. Tester l'API
+
+```bash
+# Health check
+curl http://localhost:8000/health
+
+# Devrait retourner:
+# {"status":"healthy","version":"1.0.0","model_loaded":true}
+```
+
+### 2. Tester le Frontend
+
+```bash
+# Lancer Streamlit
+streamlit run src/frontend/app.py
+
+# Ouvrir: http://localhost:8501
+```
+
+### 3. Exécuter les Tests
+
+```bash
+# Tous les tests
+pytest
+
+# Avec coverage
+pytest --cov=src --cov-report=html
+
+# Tests spécifiques
+pytest tests/unit/test_model.py -v
+```
+
+---
+
+## 🔧 Configuration Post-Installation
+
+### 1. Configuration de l'Environnement
+
+Éditez `.env`:
+
+```bash
+# Pour développement
+ENVIRONMENT=development
+DEBUG=true
+LOG_LEVEL=DEBUG
+
+# Pour production
+ENVIRONMENT=production
+DEBUG=false
+LOG_LEVEL=WARNING
+```
+
+### 2. Télécharger un Modèle Pré-entraîné (Optionnel)
+
+```bash
+# Créer le dossier models si nécessaire
+mkdir -p models
+
+# Télécharger un checkpoint (exemple)
+# wget https://example.com/arslm_base.pt -O models/arslm_base.pt
+```
+
+### 3. Initialiser la Base de Données (Si utilisée)
+
+```bash
+# Avec Alembic (migrations)
+alembic upgrade head
+
+# Ou créer manuellement
+python scripts/init_database.py
+```
+
+---
+
+## 🔄 Migration des Imports
+
+Après la restructuration, vous devez mettre à jour les imports dans vos fichiers Python.
+
+### Anciens Imports
+```python
+from ARSLM import ARSLMModel
+import microllm_core
+```
+
+### Nouveaux Imports
+```python
+from src.arslm.core.model import ARSLMModel
+from src.arslm.utils.tokenizer import SimpleTokenizer
+```
+
+### Script de Migration des Imports
+
+```bash
+# Trouver tous les imports à corriger
+grep -r "from ARSLM import" src/
+grep -r "import ARSLM" src/
+
+# Remplacer automatiquement (Linux/Mac)
+find src/ -type f -name "*.py" -exec sed -i 's/from ARSLM import/from src.arslm.core.model import/g' {} +
+```
+
+---
+
+## 🚀 Premier Lancement
+
+### Démarrage Complet
+
+```bash
+# Terminal 1: API
+uvicorn src.api.main:app --reload --host 0.0.0.0 --port 8000
+
+# Terminal 2: Frontend
+streamlit run src/frontend/app.py --server.port 8501
+
+# Ou utiliser Docker Compose
+docker-compose up
+```
+
+### Test Rapide
+
+```python
+# test_quick.py
+from src.arslm.core.model import ARSLMModel, ARSLMConfig
+from src.arslm.utils.tokenizer import SimpleTokenizer
+
+# Créer modèle
+config = ARSLMConfig(vocab_size=10000, d_model=256, n_layers=2)
+model = ARSLMModel(config)
+
+# Créer tokenizer
+tokenizer = SimpleTokenizer(vocab_size=10000)
+
+# Test simple
+text = "Hello world"
+token_ids = tokenizer.encode(text)
+print(f"Token IDs: {token_ids}")
+
+decoded = tokenizer.decode(token_ids)
+print(f"Decoded: {decoded}")
+
+print("✅ Installation validée!")
+```
+
+```bash
+python test_quick.py
+```
+
+---
+
+## 🐛 Dépannage
+
+### Problème 1: Module Not Found
+
+```bash
+# Erreur: ModuleNotFoundError: No module named 'src'
+
+# Solution 1: Installer en mode éditable
+pip install -e .
+
+# Solution 2: Ajouter au PYTHONPATH
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+
+# Solution 3: Utiliser imports relatifs
+python -m src.api.main
+```
+
+### Problème 2: Port Déjà Utilisé
+
+```bash
+# Erreur: Address already in use
+
+# Trouver le processus
+lsof -i :8000  # Pour l'API
+lsof -i :8501  # Pour Streamlit
+
+# Tuer le processus
+kill -9 <PID>
+
+# Ou changer le port
+uvicorn src.api.main:app --port 8001
+```
+
+### Problème 3: Dépendances Manquantes
+
+```bash
+# Réinstaller toutes les dépendances
+pip install --upgrade -r requirements.txt
+
+# Ou recréer l'environnement
+rm -rf venv
+python -m venv venv
+source venv/bin/activate
+pip install -e ".[dev]"
+```
+
+### Problème 4: Docker Build Échoue
+
+```bash
+# Nettoyer le cache Docker
+docker builder prune -a
+
+# Rebuild sans cache
+docker-compose build --no-cache
+
+# Vérifier les logs
+docker-compose logs -f api
+```
+
+---
+
+## 📊 Vérification Finale
+
+### Checklist
+
+- [ ] Structure de dossiers créée
+- [ ] Fichiers migrés avec succès
+- [ ] Environnement virtuel activé
+- [ ] Dépendances installées
+- [ ] Tests passent (pytest)
+- [ ] API démarre sans erreur
+- [ ] Frontend accessible
+- [ ] Docker Compose fonctionne
+- [ ] Imports mis à jour
+- [ ] Documentation accessible
+
+### Script de Validation
+
+```bash
+#!/bin/bash
+# validate_installation.sh
+
+echo "🔍 Validation de l'installation..."
+
+# Vérifier Python
+python --version || exit 1
+
+# Vérifier les dépendances
+pip list | grep "torch\|fastapi\|streamlit" || exit 1
+
+# Vérifier la structure
+[ -d "src/arslm" ] || exit 1
+[ -d "src/api" ] || exit 1
+[ -d "tests" ] || exit 1
+
+# Lancer les tests
+pytest tests/ --maxfail=1 || exit 1
+
+echo "✅ Installation validée avec succès!"
+```
+
+```bash
+chmod +x validate_installation.sh
+./validate_installation.sh
+```
+
+---
+
+## 🎉 Prochaines Étapes
+
+1. **Lire la documentation**
+   ```bash
+   # Architecture
+   cat docs/ARCHITECTURE.md
+   
+   # API Reference
+   open http://localhost:8000/docs
+   ```
+
+2. **Explorer le code**
+   ```bash
+   # Modèle principal
+   cat src/arslm/core/model.py
+   
+   # API
+   cat src/api/main.py
+   ```
+
+3. **Commencer à développer**
+   ```bash
+   # Créer une branche
+   git checkout -b feature/my-feature
+   
+   # Faire vos modifications
+   # ...
+   
+   # Tester
+   pytest
+   
+   # Commit
+   git add .
+   git commit -m "feat: add my feature"
+   ```
+
+---
+
+## 📞 Support
+
+### Problème persistant ?
+
+1. **Vérifier les Issues GitHub**
+   https://github.com/benjaminpolydeq/ARSLM/issues
+
+2. **Créer une nouvelle Issue**
+   - Décrire le problème
+   - Inclure les logs d'erreur
+   - Spécifier votre environnement
+
+3. **Contact direct**
+   - Email: benjokama@hotmail.fr
+   - GitHub: @benjaminpolydeq
+
+---
+
+## 📚 Ressources Additionnelles
+
+- [Architecture Documentation](docs/ARCHITECTURE.md)
+- [API Reference](http://localhost:8000/docs)
+- [Contributing Guide](CONTRIBUTING.md)
+- [Changelog](CHANGELOG.md)
+
+---
+
+**✅ Installation terminée ! Bon développement ! 🚀**
