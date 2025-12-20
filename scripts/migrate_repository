@@ -1,0 +1,307 @@
+#!/usr/bin/env python3
+"""
+Repository Migration Script
+
+Automatically restructures the ARSLM repository to the new professional layout.
+"""
+
+import os
+import shutil
+from pathlib import Path
+import subprocess
+import sys
+
+
+class RepositoryMigrator:
+    """Handles repository restructuring."""
+    
+    def __init__(self, repo_path: str = "."):
+        self.repo_path = Path(repo_path).resolve()
+        self.backup_branch = "backup-before-restructure"
+        
+    def create_backup(self):
+        """Create backup branch."""
+        print("📦 Creating backup branch...")
+        try:
+            subprocess.run(
+                ["git", "checkout", "-b", self.backup_branch],
+                cwd=self.repo_path,
+                check=True
+            )
+            subprocess.run(
+                ["git", "push", "origin", self.backup_branch],
+                cwd=self.repo_path,
+                check=True
+            )
+            subprocess.run(
+                ["git", "checkout", "main"],
+                cwd=self.repo_path,
+                check=True
+            )
+            print(f"✅ Backup created on branch: {self.backup_branch}")
+        except subprocess.CalledProcessError as e:
+            print(f"⚠️  Warning: Could not create backup branch: {e}")
+    
+    def create_directory_structure(self):
+        """Create new directory structure."""
+        print("\n📁 Creating directory structure...")
+        
+        directories = [
+            "src/arslm/core",
+            "src/arslm/training",
+            "src/arslm/inference",
+            "src/arslm/utils",
+            "src/api/routes",
+            "src/api/schemas",
+            "src/api/middleware",
+            "src/frontend/pages",
+            "src/frontend/components",
+            "tests/unit",
+            "tests/integration",
+            "tests/fixtures",
+            "docs",
+            "config",
+            "scripts",
+            "data/sample",
+            "models/checkpoints",
+            "notebooks",
+            "docker",
+            ".github/workflows",
+            ".github/ISSUE_TEMPLATE",
+            "logs",
+        ]
+        
+        for directory in directories:
+            dir_path = self.repo_path / directory
+            dir_path.mkdir(parents=True, exist_ok=True)
+            
+            # Create __init__.py for Python packages
+            if directory.startswith("src/") or directory.startswith("tests/"):
+                init_file = dir_path / "__init__.py"
+                if not init_file.exists():
+                    init_file.touch()
+        
+        print("✅ Directory structure created")
+    
+    def migrate_existing_files(self):
+        """Migrate existing files to new structure."""
+        print("\n🔄 Migrating existing files...")
+        
+        # Define file migrations
+        migrations = {
+            "ARSLM.py": "src/arslm/core/model.py",
+            "ARSLM.init.py": "src/arslm/__init__.py",
+            "main.py": "src/api/main.py",
+            "streamlit_app.py": "src/frontend/app.py",
+            "microllm_core.py": "src/arslm/core/legacy_model.py",
+            "requirements.txt": "requirements.txt",
+            "README.md": "README.md",
+            "LICENSE": "LICENSE",
+        }
+        
+        for old_path, new_path in migrations.items():
+            old_file = self.repo_path / old_path
+            new_file = self.repo_path / new_path
+            
+            if old_file.exists():
+                print(f"  Moving: {old_path} → {new_path}")
+                new_file.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(old_file, new_file)
+            else:
+                print(f"  ⚠️  Not found: {old_path}")
+        
+        print("✅ Files migrated")
+    
+    def create_config_files(self):
+        """Create essential configuration files."""
+        print("\n⚙️  Creating configuration files...")
+        
+        # Create .gitignore
+        gitignore_content = """# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.venv/
+venv/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
+logs/
+
+# Models & Data
+models/*.pt
+models/*.pth
+data/processed/
+!data/.gitkeep
+!models/.gitkeep
+
+# Tests
+.pytest_cache/
+htmlcov/
+.coverage
+"""
+        (self.repo_path / ".gitignore").write_text(gitignore_content)
+        
+        # Create .env.example
+        env_example = """# Application
+APP_NAME=ARSLM
+ENVIRONMENT=development
+
+# API
+API_HOST=0.0.0.0
+API_PORT=8000
+
+# Frontend
+FRONTEND_PORT=8501
+
+# Model
+MODEL_PATH=./models/arslm_base.pt
+"""
+        (self.repo_path / ".env.example").write_text(env_example)
+        
+        print("✅ Configuration files created")
+    
+    def create_documentation_stubs(self):
+        """Create documentation file stubs."""
+        print("\n📚 Creating documentation stubs...")
+        
+        docs = {
+            "docs/getting-started.md": "# Getting Started\n\nTODO: Add getting started guide",
+            "docs/architecture.md": "# Architecture\n\nTODO: Add architecture documentation",
+            "docs/api-reference.md": "# API Reference\n\nTODO: Add API documentation",
+            "CONTRIBUTING.md": "# Contributing\n\nTODO: Add contribution guidelines",
+            "CHANGELOG.md": "# Changelog\n\n## [Unreleased]\n- Repository restructured",
+        }
+        
+        for file_path, content in docs.items():
+            doc_file = self.repo_path / file_path
+            if not doc_file.exists():
+                doc_file.write_text(content)
+        
+        print("✅ Documentation stubs created")
+    
+    def cleanup_old_files(self):
+        """Clean up old files (optional)."""
+        print("\n🧹 Cleanup old files? (y/n): ", end="")
+        response = input().lower()
+        
+        if response == 'y':
+            old_files = [
+                "ARSLM engine",
+                "ARSLM.py",
+                "ARSLM.init.py",
+                "main.py",
+                "streamlit_app.py",
+                "microllm_core.py",
+            ]
+            
+            for old_file in old_files:
+                file_path = self.repo_path / old_file
+                if file_path.exists():
+                    if file_path.is_dir():
+                        shutil.rmtree(file_path)
+                    else:
+                        file_path.unlink()
+                    print(f"  Removed: {old_file}")
+            
+            print("✅ Cleanup complete")
+        else:
+            print("⏭️  Cleanup skipped")
+    
+    def create_git_commit(self):
+        """Create git commit for changes."""
+        print("\n💾 Create git commit? (y/n): ", end="")
+        response = input().lower()
+        
+        if response == 'y':
+            try:
+                subprocess.run(
+                    ["git", "add", "."],
+                    cwd=self.repo_path,
+                    check=True
+                )
+                subprocess.run(
+                    ["git", "commit", "-m", "refactor: restructure repository to professional layout"],
+                    cwd=self.repo_path,
+                    check=True
+                )
+                print("✅ Changes committed")
+            except subprocess.CalledProcessError as e:
+                print(f"⚠️  Warning: Could not create commit: {e}")
+        else:
+            print("⏭️  Commit skipped")
+    
+    def run(self):
+        """Run complete migration."""
+        print("=" * 60)
+        print("🚀 ARSLM Repository Migration")
+        print("=" * 60)
+        
+        print(f"\n📍 Repository path: {self.repo_path}")
+        print("\n⚠️  This will restructure your repository.")
+        print("Continue? (y/n): ", end="")
+        
+        if input().lower() != 'y':
+            print("❌ Migration cancelled")
+            return
+        
+        try:
+            self.create_backup()
+            self.create_directory_structure()
+            self.migrate_existing_files()
+            self.create_config_files()
+            self.create_documentation_stubs()
+            self.cleanup_old_files()
+            self.create_git_commit()
+            
+            print("\n" + "=" * 60)
+            print("✅ Migration completed successfully!")
+            print("=" * 60)
+            print("\n📝 Next steps:")
+            print("1. Review migrated files")
+            print("2. Update imports in Python files")
+            print("3. Test the application")
+            print("4. Push changes: git push origin main")
+            print(f"5. Backup available at: {self.backup_branch}")
+            
+        except Exception as e:
+            print(f"\n❌ Error during migration: {e}")
+            print("You can restore from backup branch if needed")
+            sys.exit(1)
+
+
+def main():
+    """Main entry point."""
+    import argparse
+    
+    parser = argparse.ArgumentParser(
+        description="Migrate ARSLM repository to new structure"
+    )
+    parser.add_argument(
+        "--path",
+        default=".",
+        help="Path to repository (default: current directory)"
+    )
+    
+    args = parser.parse_args()
+    
+    migrator = RepositoryMigrator(args.path)
+    migrator.run()
+
+
+if __name__ == "__main__":
+    main()
