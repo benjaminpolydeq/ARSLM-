@@ -1,0 +1,354 @@
+# 📋 Liste Complète des Fichiers ARSLM
+
+## ✅ Checklist de Création
+
+### 🔧 Fichiers de Configuration (Priority: CRITICAL)
+
+- [x] `.gitignore` - Git ignore rules
+- [x] `.env.example` - Environment variables template
+- [ ] `.env` - Your actual environment (create from .env.example)
+- [x] `pyproject.toml` - Python project configuration
+- [x] `setup.py` - Package setup
+- [ ] `setup.cfg` - Setup configuration
+- [x] `requirements.txt` - Production dependencies
+- [x] `requirements-dev.txt` - Development dependencies
+- [x] `requirements-test.txt` - Testing dependencies
+- [ ] `.editorconfig` - Editor configuration
+- [ ] `.pre-commit-config.yaml` - Pre-commit hooks
+
+---
+
+### 📄 Documentation (Priority: HIGH)
+
+- [x] `README.md` - Main documentation
+- [x] `LICENSE` - MIT License
+- [x] `CONTRIBUTING.md` - Contribution guidelines
+- [ ] `CODE_OF_CONDUCT.md` - Code of conduct
+- [ ] `SECURITY.md` - Security policy
+- [x] `CHANGELOG.md` - Version history
+- [ ] `CITATION.cff` - Citation info
+
+#### docs/
+- [ ] `docs/index.md` - Documentation home
+- [ ] `docs/getting-started.md` - Getting started guide
+- [x] `docs/ARCHITECTURE.md` - Architecture documentation
+- [ ] `docs/api-reference.md` - API documentation
+- [ ] `docs/deployment.md` - Deployment guide
+- [ ] `docs/training-guide.md` - Training guide
+- [ ] `docs/contributing.md` - Contributing guide
+- [ ] `docs/faq.md` - Frequently asked questions
+
+---
+
+### 🧠 Code Source (Priority: CRITICAL)
+
+#### src/arslm/core/
+- [x] `src/arslm/core/__init__.py`
+- [x] `src/arslm/core/model.py` - Main ARSLM model
+- [ ] `src/arslm/core/attention.py` - Attention mechanisms
+- [ ] `src/arslm/core/encoder.py` - Encoder implementation
+- [ ] `src/arslm/core/decoder.py` - Decoder implementation
+
+#### src/arslm/training/
+- [ ] `src/arslm/training/__init__.py`
+- [ ] `src/arslm/training/trainer.py` - Training loop
+- [ ] `src/arslm/training/data_loader.py` - Data loading
+
+#### src/arslm/inference/
+- [ ] `src/arslm/inference/__init__.py`
+- [ ] `src/arslm/inference/generator.py` - Text generation
+- [ ] `src/arslm/inference/pipeline.py` - Inference pipeline
+
+#### src/arslm/utils/
+- [ ] `src/arslm/utils/__init__.py`
+- [x] `src/arslm/utils/tokenizer.py` - Tokenizer
+- [ ] `src/arslm/utils/helpers.py` - Helper functions
+
+---
+
+### 🌐 API (Priority: CRITICAL)
+
+#### src/api/
+- [ ] `src/api/__init__.py`
+- [x] `src/api/main.py` - FastAPI application
+
+#### src/api/routes/
+- [ ] `src/api/routes/__init__.py`
+- [ ] `src/api/routes/chat.py` - Chat endpoints
+- [ ] `src/api/routes/models.py` - Model management
+- [ ] `src/api/routes/health.py` - Health checks
+
+#### src/api/schemas/
+- [ ] `src/api/schemas/__init__.py`
+- [ ] `src/api/schemas/request.py` - Request schemas
+- [ ] `src/api/schemas/response.py` - Response schemas
+
+#### src/api/middleware/
+- [ ] `src/api/middleware/__init__.py`
+- [ ] `src/api/middleware/auth.py` - Authentication
+- [ ] `src/api/middleware/logging.py` - Request logging
+
+---
+
+### 🎨 Frontend (Priority: HIGH)
+
+#### src/frontend/
+- [ ] `src/frontend/__init__.py`
+- [x] `src/frontend/app.py` - Main Streamlit app
+
+#### src/frontend/pages/
+- [ ] `src/frontend/pages/__init__.py`
+- [ ] `src/frontend/pages/chat.py` - Chat page
+- [ ] `src/frontend/pages/history.py` - History page
+- [ ] `src/frontend/pages/settings.py` - Settings page
+
+#### src/frontend/components/
+- [ ] `src/frontend/components/__init__.py`
+- [ ] `src/frontend/components/sidebar.py` - Sidebar component
+- [ ] `src/frontend/components/chat_interface.py` - Chat UI
+
+---
+
+### 🧪 Tests (Priority: HIGH)
+
+#### tests/unit/
+- [ ] `tests/__init__.py`
+- [ ] `tests/unit/__init__.py`
+- [x] `tests/unit/test_model.py` - Model tests
+- [ ] `tests/unit/test_attention.py` - Attention tests
+- [ ] `tests/unit/test_tokenizer.py` - Tokenizer tests
+
+#### tests/integration/
+- [ ] `tests/integration/__init__.py`
+- [ ] `tests/integration/test_api.py` - API tests
+- [ ] `tests/integration/test_pipeline.py` - Pipeline tests
+
+#### tests/fixtures/
+- [ ] `tests/fixtures/__init__.py`
+- [ ] `tests/fixtures/sample_data.py` - Test data
+
+---
+
+### ⚙️ Configuration (Priority: MEDIUM)
+
+#### config/
+- [ ] `config/__init__.py`
+- [ ] `config/settings.py` - Application settings
+- [ ] `config/logging_config.yaml` - Logging configuration
+- [ ] `config/model_config.yaml` - Model configuration
+
+---
+
+### 📜 Scripts (Priority: MEDIUM)
+
+#### scripts/
+- [ ] `scripts/setup.sh` - Setup script
+- [ ] `scripts/train_model.py` - Training script
+- [ ] `scripts/evaluate_model.py` - Evaluation script
+- [ ] `scripts/deploy.sh` - Deployment script
+- [x] `scripts/migrate_repository.py` - Migration script
+
+---
+
+### 🐳 Docker (Priority: HIGH)
+
+#### docker/
+- [x] `docker/Dockerfile` - Main Dockerfile
+- [ ] `docker/Dockerfile.api` - API-specific Dockerfile
+- [ ] `docker/Dockerfile.frontend` - Frontend-specific Dockerfile
+- [x] `docker/docker-compose.yml` - Docker Compose configuration
+- [ ] `docker/docker-compose.prod.yml` - Production compose
+- [ ] `docker/.dockerignore` - Docker ignore rules
+
+#### nginx/
+- [ ] `nginx/nginx.conf` - Nginx configuration
+- [ ] `nginx/ssl/` - SSL certificates directory
+
+---
+
+### 🔄 CI/CD (Priority: HIGH)
+
+#### .github/workflows/
+- [x] `.github/workflows/ci.yml` - CI pipeline
+- [ ] `.github/workflows/deploy.yml` - Deployment pipeline
+- [ ] `.github/workflows/release.yml` - Release automation
+
+#### .github/ISSUE_TEMPLATE/
+- [ ] `.github/ISSUE_TEMPLATE/bug_report.md`
+- [ ] `.github/ISSUE_TEMPLATE/feature_request.md`
+- [ ] `.github/ISSUE_TEMPLATE/question.md`
+
+#### .github/
+- [ ] `.github/pull_request_template.md`
+- [ ] `.github/FUNDING.yml` - Sponsorship info
+
+---
+
+### 📁 Data & Models (Priority: LOW)
+
+#### data/
+- [ ] `data/.gitkeep`
+- [ ] `data/README.md` - Data documentation
+- [ ] `data/sample/conversations.json` - Sample data
+
+#### models/
+- [ ] `models/.gitkeep`
+- [ ] `models/README.md` - Models documentation
+- [ ] `models/checkpoints/` - Model checkpoints directory
+
+---
+
+### 📓 Notebooks (Priority: LOW)
+
+#### notebooks/
+- [ ] `notebooks/01_data_exploration.ipynb`
+- [ ] `notebooks/02_model_training.ipynb`
+- [ ] `notebooks/03_evaluation.ipynb`
+- [ ] `notebooks/04_inference_demo.ipynb`
+
+---
+
+### 🛠️ DevContainer (Priority: LOW)
+
+#### .devcontainer/
+- [ ] `.devcontainer/devcontainer.json`
+- [ ] `.devcontainer/Dockerfile`
+
+---
+
+## 📊 Progression
+
+### Critiques (17/43) - 40% ✅
+
+**Créés:**
+- Configuration de base (gitignore, env, pyproject.toml, setup.py)
+- Documentation principale (README, CHANGELOG, ARCHITECTURE)
+- Code source principal (model.py, tokenizer.py, main.py, app.py)
+- Tests de base (test_model.py)
+- Docker & CI/CD (Dockerfile, docker-compose.yml, ci.yml)
+- Script de migration
+
+**À créer en priorité:**
+1. `src/api/routes/*.py` - Endpoints API
+2. `src/api/schemas/*.py` - Schémas Pydantic
+3. `config/settings.py` - Configuration app
+4. `tests/integration/test_api.py` - Tests API
+5. `docs/getting-started.md` - Guide démarrage
+
+---
+
+## 🚀 Plan de Création
+
+### Phase 1: Core Functionality (Jour 1)
+
+```bash
+# API Routes
+touch src/api/routes/{__init__,chat,models,health}.py
+
+# API Schemas
+touch src/api/schemas/{__init__,request,response}.py
+
+# Configuration
+touch config/{__init__,settings}.py
+
+# Tests
+touch tests/integration/{__init__,test_api}.py
+```
+
+### Phase 2: Documentation (Jour 2)
+
+```bash
+# Docs
+touch docs/{getting-started,api-reference,deployment,faq}.md
+
+# Contributing
+touch CODE_OF_CONDUCT.md SECURITY.md
+```
+
+### Phase 3: Advanced Features (Jour 3)
+
+```bash
+# Training
+touch src/arslm/training/{__init__,trainer,data_loader}.py
+
+# Inference
+touch src/arslm/inference/{__init__,generator,pipeline}.py
+
+# Middleware
+touch src/api/middleware/{__init__,auth,logging}.py
+```
+
+### Phase 4: DevOps (Jour 4)
+
+```bash
+# CI/CD
+touch .github/workflows/{deploy,release}.yml
+
+# Issue templates
+touch .github/ISSUE_TEMPLATE/{bug_report,feature_request,question}.md
+
+# Scripts
+touch scripts/{setup.sh,train_model.py,evaluate_model.py}
+```
+
+---
+
+## 🎯 Commandes Rapides
+
+### Créer Tous les Fichiers Essentiels
+
+```bash
+#!/bin/bash
+# create_essential_files.sh
+
+# API Routes
+mkdir -p src/api/routes && cd src/api/routes
+touch __init__.py chat.py models.py health.py
+cd ../../..
+
+# API Schemas
+mkdir -p src/api/schemas && cd src/api/schemas
+touch __init__.py request.py response.py
+cd ../../..
+
+# Config
+mkdir -p config && cd config
+touch __init__.py settings.py logging_config.yaml
+cd ..
+
+# Tests
+mkdir -p tests/integration && cd tests/integration
+touch __init__.py test_api.py
+cd ../..
+
+# Docs
+cd docs
+touch getting-started.md api-reference.md deployment.md
+cd ..
+
+# GitHub
+mkdir -p .github/ISSUE_TEMPLATE
+touch .github/pull_request_template.md
+touch .github/ISSUE_TEMPLATE/{bug_report.md,feature_request.md}
+
+echo "✅ Fichiers essentiels créés!"
+```
+
+```bash
+chmod +x create_essential_files.sh
+./create_essential_files.sh
+```
+
+---
+
+## 📞 Support
+
+Besoin d'aide pour créer ces fichiers ?
+
+1. **Utiliser le script de migration**: `python scripts/migrate_repository.py`
+2. **Créer manuellement**: Suivre cette checklist
+3. **Demander de l'aide**: benjokama@hotmail.fr
+
+---
+
+**Total: 100+ fichiers à créer pour un dépôt complet professionnel** 🚀
