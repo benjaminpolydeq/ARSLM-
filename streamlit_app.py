@@ -5,20 +5,18 @@ from datetime import datetime
 # ⚠️ Assurez-vous que ARSLM est dans arslm/arslm.py
 from arslm.arslm import ARSLM  
 
-# ---------------------------
-# Page configuration
-# ---------------------------
 st.set_page_config(page_title="ARSLM Chat", layout="wide")
+
 st.title("🧠 ARSLM Chatbot")
 st.write("Chat interactif avec ARSLM (Adaptive Reasoning Semantic Language Model)")
 
 # ---------------------------
-# 1️⃣ Initialisation session ARSLM
+# 1️⃣ Initialisation session
 # ---------------------------
 if "arslm_session" not in st.session_state:
     try:
-        st.session_state.arslm_session = ARSLM(use_custom_model=True, device="cpu")
-        st.success("✅ ARSLM initialisé en mode CPU")
+        # Initialisation ARSLM custom CPU
+        st.session_state.arslm_session = ARSLM(device="cpu", custom_model=True)
     except Exception as e:
         st.error(f"Erreur lors de l'initialisation d'ARSLM: {e}")
 
@@ -53,6 +51,7 @@ if st.button("Envoyer") and user_input.strip():
     if "arslm_session" in st.session_state:
         with st.spinner("📝 Génération en cours..."):
             try:
+                # Générer réponse
                 assistant_response = st.session_state.arslm_session.generate(
                     prompt=user_input,
                     max_length=150,
