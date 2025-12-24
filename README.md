@@ -1025,3 +1025,499 @@ Special thanks to:
 [⬆ Back to Top](#-arslm---adaptive-reasoning-semantic-language-model)
 
 </div>
+
+# 🧠 ARSLM - Adaptive Reasoning Semantic Language Model
+
+[![PyPI version](https://badge.fury.io/py/arslm.svg)](https://badge.fury.io/py/arslm)
+[![Python Version](https://img.shields.io/pypi/pyversions/arslm.svg)](https://pypi.org/project/arslm/)
+[![License](https://img.shields.io/pypi/l/arslm.svg)](https://github.com/benjaminpolydeq/ARSLM/blob/main/LICENSE)
+[![Downloads](https://pepy.tech/badge/arslm)](https://pepy.tech/project/arslm)
+[![Tests](https://github.com/benjaminpolydeq/ARSLM/workflows/Tests/badge.svg)](https://github.com/benjaminpolydeq/ARSLM/actions)
+
+**Lightweight AI Engine for Intelligent Response Generation**
+
+ARSLM is a modern, efficient language model designed for businesses worldwide requiring intelligent conversational capabilities without the complexity and cost of large-scale cloud solutions.
+
+---
+
+## ✨ Features
+
+- 🚀 **Lightweight**: Runs on modest hardware (4GB RAM minimum)
+- 💬 **Conversational AI**: Intelligent chatbot capabilities with context awareness
+- 🔒 **Privacy-First**: Deploy on-premises or private cloud for complete data control
+- 🌍 **Multi-Language Ready**: Extensible architecture for any language
+- 📦 **Easy Integration**: Simple Python API with minimal dependencies
+- ⚡ **Fast**: Optimized for low latency responses
+- 🔧 **Modular**: Plug-and-play components for custom architectures
+- 🎯 **Production-Ready**: Built with FastAPI, includes CLI tools and REST API
+
+---
+
+## 📦 Installation
+
+### Basic Installation
+
+```bash
+pip install arslm
+```
+
+### With Optional Dependencies
+
+```bash
+# For web interface
+pip install arslm[streamlit]
+
+# For development
+pip install arslm[dev]
+
+# For Jupyter notebooks
+pip install arslm[jupyter]
+
+# Install everything
+pip install arslm[all]
+```
+
+### From Source
+
+```bash
+git clone https://github.com/benjaminpolydeq/ARSLM.git
+cd ARSLM
+pip install -e .
+```
+
+---
+
+## 🚀 Quick Start
+
+### Basic Usage
+
+```python
+from arslm import ARSLM
+
+# Initialize model
+model = ARSLM()
+
+# Generate response
+response = model.generate(
+    prompt="What are the benefits of AI for businesses?",
+    max_length=100,
+    temperature=0.8
+)
+
+print(response)
+```
+
+### Chat Interface
+
+```python
+from arslm import ARSLM
+
+# Create model
+model = ARSLM()
+
+# Interactive conversation
+while True:
+    user_input = input("You: ")
+    if user_input.lower() in ['exit', 'quit']:
+        break
+    
+    response = model.generate(user_input)
+    print(f"ARSLM: {response}")
+```
+
+### API Client
+
+```python
+from arslm import ARSLMClient
+
+# Connect to ARSLM server
+client = ARSLMClient(url="http://localhost:8000")
+
+# Send message
+response = client.chat(
+    message="Tell me about your services",
+    session_id="user123"
+)
+
+print(response['text'])
+```
+
+### Command Line Interface
+
+```bash
+# Generate text
+arslm generate --prompt "Hello, world!" --max-length 100
+
+# Start API server
+arslm serve --host 0.0.0.0 --port 8000
+
+# Interactive chat
+arslm chat
+
+# Model information
+arslm info
+```
+
+---
+
+## 🏗️ Architecture
+
+ARSLM combines three core technologies:
+
+1. **Adaptive Recurrent Networks**: LSTM/GRU with dynamic behavior adaptation
+2. **Multi-Head Attention**: Efficient attention mechanisms for context understanding
+3. **Adaptive Components**: Dynamic routing and computation for optimal performance
+
+```
+┌─────────────────────────────────────────┐
+│         ARSLM Architecture              │
+├─────────────────────────────────────────┤
+│                                         │
+│  ┌───────────────────────────────────┐ │
+│  │   Embedding Layer                 │ │
+│  │   (Token + Position)              │ │
+│  └───────────────────────────────────┘ │
+│                 ↓                       │
+│  ┌───────────────────────────────────┐ │
+│  │   ARSLM Layers (x N)              │ │
+│  │                                   │ │
+│  │   • Multi-Head Attention          │ │
+│  │   • Adaptive Recurrent (LSTM)     │ │
+│  │   • Adaptive Layer (MoE)          │ │
+│  │   • Feed-Forward Network          │ │
+│  └───────────────────────────────────┘ │
+│                 ↓                       │
+│  ┌───────────────────────────────────┐ │
+│  │   Output Layer                    │ │
+│  │   (Vocabulary Projection)         │ │
+│  └───────────────────────────────────┘ │
+│                                         │
+└─────────────────────────────────────────┘
+```
+
+---
+
+## 💡 Use Cases
+
+### 1. Customer Support Chatbot
+
+```python
+from arslm import ARSLM
+
+model = ARSLM()
+
+# Handle customer queries
+query = "How do I reset my password?"
+response = model.generate(query)
+```
+
+### 2. Content Generation
+
+```python
+from arslm import ARSLM
+
+model = ARSLM()
+
+# Generate blog post
+prompt = "Write about the future of AI in healthcare"
+content = model.generate(prompt, max_length=500)
+```
+
+### 3. Code Assistant
+
+```python
+from arslm import ARSLM
+
+model = ARSLM()
+
+# Code help
+prompt = "Explain how to use Python decorators"
+explanation = model.generate(prompt)
+```
+
+---
+
+## 📚 Documentation
+
+### Core Components
+
+#### ARSLM Model
+
+The main model class:
+
+```python
+from arslm import ARSLM, ARSLMConfig
+
+# Custom configuration
+config = ARSLMConfig(
+    vocab_size=50000,
+    hidden_size=768,
+    num_layers=12,
+    num_heads=12,
+    max_length=512
+)
+
+# Create model
+model = ARSLM(config)
+
+# Generate text
+output = model.generate("Hello")
+```
+
+#### Tokenizer
+
+Text preprocessing and tokenization:
+
+```python
+from arslm.utils import ARSLMTokenizer
+
+# Create tokenizer
+tokenizer = ARSLMTokenizer()
+
+# Encode text
+token_ids = tokenizer.encode("Hello, world!")
+
+# Decode back
+text = tokenizer.decode(token_ids)
+```
+
+#### API Client
+
+Interact with ARSLM server:
+
+```python
+from arslm import ARSLMClient
+
+client = ARSLMClient("http://localhost:8000")
+
+# Chat
+response = client.chat("Hello", session_id="user1")
+
+# Generate
+response = client.generate("Write a poem", max_length=100)
+
+# Get history
+history = client.get_history("user1")
+```
+
+---
+
+## 🛠️ Advanced Usage
+
+### Custom Model Architecture
+
+```python
+from arslm import ARSLMConfig, ARSLM
+
+# Create custom config
+config = ARSLMConfig(
+    vocab_size=30000,
+    hidden_size=512,
+    num_layers=6,
+    num_heads=8,
+    use_adaptive=True,
+    recurrent_type="lstm"
+)
+
+model = ARSLM(config)
+```
+
+### Fine-tuning
+
+```python
+from arslm import ARSLM
+import torch
+
+model = ARSLM()
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
+
+# Training loop
+for batch in dataloader:
+    input_ids = batch['input_ids']
+    labels = batch['labels']
+    
+    outputs = model(input_ids, labels=labels)
+    loss = outputs['loss']
+    
+    loss.backward()
+    optimizer.step()
+    optimizer.zero_grad()
+```
+
+### Saving and Loading
+
+```python
+from arslm import ARSLM
+
+# Save model
+model = ARSLM()
+model.save_pretrained("./my_model")
+
+# Load model
+loaded_model = ARSLM.from_pretrained("./my_model")
+```
+
+---
+
+## 🌐 API Server
+
+Start the REST API server:
+
+```bash
+# Command line
+arslm serve --host 0.0.0.0 --port 8000
+
+# Or with Python
+python -m arslm.api.server
+```
+
+### API Endpoints
+
+- `POST /api/v1/chat` - Send chat message
+- `POST /api/v1/generate` - Generate text
+- `GET /api/v1/history/{session_id}` - Get conversation history
+- `DELETE /api/v1/history/{session_id}` - Clear history
+- `GET /health` - Health check
+- `GET /api/v1/model/info` - Model information
+
+---
+
+## 🔧 Configuration
+
+### Model Configuration
+
+```python
+from arslm import ARSLMConfig
+
+config = ARSLMConfig(
+    vocab_size=50000,        # Vocabulary size
+    hidden_size=768,         # Hidden dimension
+    num_layers=12,           # Number of layers
+    num_heads=12,            # Attention heads
+    intermediate_size=3072,  # FFN dimension
+    max_length=512,          # Max sequence length
+    dropout=0.1,             # Dropout probability
+    use_adaptive=True,       # Use adaptive components
+)
+```
+
+### Environment Variables
+
+```bash
+ARSLM_MODEL_PATH=/path/to/model
+ARSLM_CACHE_DIR=/path/to/cache
+ARSLM_LOG_LEVEL=INFO
+```
+
+---
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+pytest
+
+# Run with coverage
+pytest --cov=arslm --cov-report=html
+
+# Run specific test
+pytest tests/test_model.py
+
+# Run only fast tests
+pytest -m "not slow"
+```
+
+---
+
+## 📊 Performance
+
+| Model Size | Parameters | RAM Usage | Inference Speed |
+|-----------|-----------|-----------|----------------|
+| Small     | 50M       | 2GB       | 50 tokens/sec  |
+| Medium    | 150M      | 4GB       | 30 tokens/sec  |
+| Large     | 350M      | 8GB       | 15 tokens/sec  |
+
+*Benchmarked on CPU (Intel i7) and GPU (NVIDIA RTX 3060)*
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md).
+
+```bash
+# Fork and clone
+git clone https://github.com/YOUR_USERNAME/ARSLM.git
+
+# Create feature branch
+git checkout -b feature/amazing-feature
+
+# Make changes and test
+pytest tests/
+
+# Commit and push
+git commit -m "Add amazing feature"
+git push origin feature/amazing-feature
+
+# Open Pull Request
+```
+
+---
+
+## 📝 Requirements
+
+- Python 3.8+
+- PyTorch 2.0+
+- 4GB RAM minimum (8GB recommended)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👤 Author
+
+**Benjamin Amaad Kama**
+
+- GitHub: [@benjaminpolydeq](https://github.com/benjaminpolydeq)
+- Email: benjokama@hotmail.fr
+
+---
+
+## 🙏 Acknowledgments
+
+- Inspired by transformer architectures and recurrent networks
+- Built for businesses worldwide
+- Special thanks to the open-source community
+
+---
+
+## 📞 Support
+
+- 📖 [Documentation](https://arslm.readthedocs.io)
+- 🐛 [Issue Tracker](https://github.com/benjaminpolydeq/ARSLM/issues)
+- 💬 [Discussions](https://github.com/benjaminpolydeq/ARSLM/discussions)
+
+---
+
+## 🗺️ Roadmap
+
+- [x] Core model implementation
+- [x] REST API
+- [x] CLI tools
+- [ ] Multi-language support
+- [ ] Fine-tuning scripts
+- [ ] Streamlit web interface
+- [ ] Docker deployment
+- [ ] Model zoo with pretrained models
+- [ ] Quantization support
+- [ ] ONNX export
+
+---
+
+**Made with ❤️ for businesses worldwide**
+
+⭐ Star us on [GitHub](https://github.com/benjaminpolydeq/ARSLM) if you find this project useful!
