@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/badge/version-1.0.0--MVP-blue.svg)](https://github.com/benjaminpolydeq/ARSLM)
 [![Python](https://img.shields.io/badge/python-3.8+-green.svg)](https://www.python.org/)
-[![License](https://img.shields.io/badge/license-MIT-red.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-Proprietary-red.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/status-MVP-yellow.svg)](https://github.com/benjaminpolydeq/ARSLM)
 [![Streamlit](https://img.shields.io/badge/streamlit-app-FF4B4B.svg)](https://streamlit.io)
 
@@ -460,6 +460,7 @@ Intéressé par investir ou partenariat ?
 
 - 📧 Demandes Business : [benjokama@hotmail.fr](mailto:benjokama@hotmail.fr)
 - 📄 Pitch Deck : [Demander l'accès](mailto:benjokama@hotmail.fr?subject=ARSLM%20Pitch%20Deck)
+- 💼 Opportunité d'Investissement : Seeking $250K seed funding
 
 ### Pour les Clients
 
@@ -467,16 +468,46 @@ Vous voulez utiliser ARSLM pour votre entreprise ?
 
 - 📧 Ventes : [benjokama@hotmail.fr](mailto:benjokama@hotmail.fr)
 - 📞 Demande de Démo : [Planifier un appel](mailto:benjokama@hotmail.fr?subject=ARSLM%20Demo%20Request)
+- 💰 Pricing : À partir de $99/mois
+
+### Pour les Licences
+
+Besoin d'une licence commerciale, entreprise ou white-label ?
+
+- 📧 Licensing : [benjokama@hotmail.fr](mailto:benjokama@hotmail.fr)
+- 📄 Objet : "ARSLM Commercial License"
 
 ---
 
 ## 📄 Licence
 
-**MIT License**
+**Proprietary Software License**
 
 Copyright © 2025 BENJAMIN AMAAD KAMA. Tous droits réservés.
 
-Voir le fichier [LICENSE](LICENSE) pour les termes complets.
+Ce logiciel est propriétaire. La copie, distribution ou utilisation non autorisée est strictement interdite.
+
+### Utilisation Autorisée
+
+✅ **Usage Personnel/Interne** : Utilisation au sein de votre organisation  
+✅ **Évaluation** : Test et évaluation à des fins de démonstration  
+✅ **Développement** : Fork pour contributions (sous réserve d'approbation)
+
+### Utilisation Interdite
+
+❌ **Redistribution** : Redistribuer le code ou les binaires  
+❌ **Usage Commercial** : Vendre ou louer le logiciel  
+❌ **Modification** : Créer des œuvres dérivées sans autorisation  
+❌ **Reverse Engineering** : Décompiler ou désassembler
+
+### Demandes de Licence
+
+Pour obtenir une licence commerciale, d'entreprise ou white-label :
+
+📧 **Contact Licensing** : [benjokama@hotmail.fr](mailto:benjokama@hotmail.fr)  
+📄 **Objet** : "ARSLM Commercial License Inquiry"
+
+Voir le fichier [LICENSE](LICENSE) pour les termes juridiques complets.
 
 ---
 
