@@ -1,644 +1,353 @@
 # 🧠 ARSLM - Adaptive Reasoning Semantic Language Model
 
-<div align="center">
+[![Version](https://img.shields.io/badge/version-1.0.0--MVP-blue.svg)](https://github.com/benjaminpolydeq/ARSLM)
+[![Python](https://img.shields.io/badge/python-3.8+-green.svg)](https://www.python.org/)
+[![License](https://img.shields.io/badge/license-MIT-red.svg)](LICENSE)
+[![Status](https://img.shields.io/badge/status-MVP-yellow.svg)](https://github.com/benjaminpolydeq/ARSLM)
+[![Streamlit](https://img.shields.io/badge/streamlit-app-FF4B4B.svg)](https://streamlit.io)
 
-![Version](https://img.shields.io/badge/version-1.0.0--MVP-blue.svg)
-![Python](https://img.shields.io/badge/python-3.8+-green.svg)
-![License](https://img.shields.io/badge/license-Proprietary-red.svg)
-![Status](https://img.shields.io/badge/status-MVP-yellow.svg)
-![Global](https://img.shields.io/badge/market-Global-orange.svg)
+**Moteur AI léger pour la génération de réponses intelligentes**  
+*Conçu pour les entreprises du monde entier - Démarrage avec les marchés émergents*
 
-**Lightweight AI Engine for Intelligent Response Generation**
-
-*Designed for Businesses Worldwide - Starting with Emerging Markets*
-
-[Features](#-features) • [Demo](#-demo) • [Installation](#-installation) • [Architecture](#-architecture) • [Use Cases](#-use-cases) • [Roadmap](#-roadmap)
-
-</div>
+[Fonctionnalités](#-fonctionnalités) • [Demo](#-démo-en-ligne) • [Installation](#-installation-rapide) • [Architecture](#-architecture) • [Cas d'usage](#-cas-dusage) • [Roadmap](#-roadmap)
 
 ---
 
-## 📖 Table of Contents
+## 📖 Table des Matières
 
-- [Overview](#-overview)
-- [Why ARSLM?](#-why-arslm)
-- [Features](#-features)
+- [Aperçu](#-aperçu)
+- [Pourquoi ARSLM ?](#-pourquoi-arslm-)
+- [Fonctionnalités](#-fonctionnalités)
+- [Installation Rapide](#-installation-rapide)
 - [Architecture](#-architecture)
-- [Installation](#-installation)
-- [Quick Start](#-quick-start)
-- [Use Cases](#-use-cases)
-- [Product Vision](#-product-vision)
+- [Cas d'Usage](#-cas-dusage)
 - [API Reference](#-api-reference)
-- [Deployment](#-deployment)
-- [Business Model](#-business-model)
-- [Roadmap](#-roadmap)
-- [Contributing](#-contributing)
+- [Déploiement](#-déploiement)
+- [Contribuer](#-contribuer)
 - [Contact](#-contact)
-- [License](#-license)
+- [Licence](#-licence)
 
 ---
 
-## 🌟 Overview
+## 🌟 Aperçu
 
-**ARSLM** (Adaptive Reasoning Semantic Language Model) is a lightweight, modular AI engine designed for businesses worldwide requiring intelligent conversational capabilities without the complexity and cost of large-scale cloud solutions.
+**ARSLM** (Adaptive Reasoning Semantic Language Model) est un moteur AI léger et modulaire conçu pour les entreprises nécessitant des capacités conversationnelles intelligentes sans la complexité et le coût des solutions cloud à grande échelle.
 
-### What is ARSLM?
+### Qu'est-ce qu'ARSLM ?
 
-ARSLM is an **MVP (Minimum Viable Product)** showcasing a functional AI engine that can:
+ARSLM est un **MVP (Minimum Viable Product)** présentant un moteur AI fonctionnel capable de :
 
-- 💬 **Generate intelligent responses** to user queries
-- 🧠 **Maintain conversation context** across sessions
-- 🎯 **Adapt to business needs** through modular architecture
-- 🌍 **Work offline** with local deployment options
-- 💰 **Reduce costs** compared to cloud-based solutions
+- 💬 **Générer des réponses intelligentes** aux requêtes des utilisateurs
+- 🧠 **Maintenir le contexte** de conversation sur plusieurs sessions
+- 🎯 **S'adapter aux besoins métiers** grâce à une architecture modulaire
+- 🌍 **Fonctionner hors ligne** avec options de déploiement local
+- 💰 **Réduire les coûts** par rapport aux solutions cloud
 
-### Key Differentiators
+### Différenciateurs Clés
 
-| Feature | ARSLM | Traditional Cloud AI |
-|---------|-------|---------------------|
-| **Deployment** | On-premises or cloud | Cloud only |
-| **Data Privacy** | Complete control | Third-party servers |
-| **Costs** | One-time + hosting | Per-token pricing |
-| **Customization** | Fully customizable | Limited customization |
-| **Latency** | Local = faster | Internet dependent |
-| **Global Reach** | Worldwide deployment | Regional limitations |
-
----
-
-## ❓ Why ARSLM?
-
-### The Problem
-
-Businesses worldwide, especially in emerging markets, face unique challenges when implementing AI:
-
-- 🌐 **Connectivity Issues**: Unreliable internet affects cloud-based AI performance
-- 💸 **High Costs**: Pay-per-use models are expensive for high-volume applications
-- 🔒 **Data Privacy**: Sensitive business data sent to third-party servers
-- 🗣️ **Language Barriers**: Limited support for regional languages and contexts
-- 🎯 **Generic Solutions**: One-size-fits-all approaches don't fit specific business needs
-- 📊 **Vendor Lock-in**: Dependency on specific cloud providers
-
-### The ARSLM Solution
-
-✅ **Local Deployment**: Run on your own servers or private cloud  
-✅ **Predictable Costs**: One-time license + infrastructure  
-✅ **Data Sovereignty**: Your data stays with you  
-✅ **Customizable**: Adapt to your specific use case  
-✅ **Lightweight**: Works on modest hardware  
-✅ **Multi-language Ready**: Extensible to any language  
-✅ **Open Architecture**: No vendor lock-in  
+| Fonctionnalité | ARSLM | Cloud AI Traditionnel |
+|---------------|-------|----------------------|
+| **Déploiement** | On-premise ou cloud | Cloud uniquement |
+| **Confidentialité** | Contrôle total | Serveurs tiers |
+| **Coûts** | Fixe + hébergement | Par token |
+| **Personnalisation** | Totalement personnalisable | Limitée |
+| **Latence** | Local = rapide | Dépend d'Internet |
+| **Portée globale** | Déploiement mondial | Limitations régionales |
 
 ---
 
-## ✨ Features
+## ❓ Pourquoi ARSLM ?
 
-### Core Features (MVP)
+### Le Problème
 
-- ✅ **Intelligent Response Generation**
-  - Context-aware responses
-  - Natural language understanding
-  - Semantic reasoning capabilities
+Les entreprises du monde entier, en particulier dans les marchés émergents, font face à des défis uniques lors de l'implémentation d'AI :
 
-- ✅ **Conversation Management**
-  - Session-based chat history
-  - Context preservation across turns
-  - Multi-user support
+- 🌐 **Problèmes de connectivité** : Internet peu fiable affecte les performances
+- 💸 **Coûts élevés** : Modèles pay-per-use onéreux pour volumes importants
+- 🔒 **Confidentialité** : Données sensibles envoyées à des serveurs tiers
+- 🗣️ **Barrières linguistiques** : Support limité pour langues régionales
+- 🎯 **Solutions génériques** : Approches universelles inadaptées
+- 📊 **Dépendance fournisseur** : Lock-in avec providers cloud spécifiques
 
-- ✅ **Simple Web Interface**
-  - Built with Streamlit
-  - Intuitive chat UI
-  - Real-time responses
-  - Conversation history view
+### La Solution ARSLM
 
-- ✅ **Modular Architecture**
-  - Pluggable AI models
-  - Extensible backend
-  - Easy integration with existing systems
+✅ **Déploiement local** : Sur vos serveurs ou cloud privé  
+✅ **Coûts prévisibles** : Licence unique + infrastructure  
+✅ **Souveraineté des données** : Vos données restent chez vous  
+✅ **Personnalisable** : Adapté à votre cas d'usage spécifique  
+✅ **Léger** : Fonctionne sur hardware modeste  
+✅ **Multi-langue** : Extensible à toute langue  
+✅ **Architecture ouverte** : Aucun vendor lock-in
 
-- ✅ **Local Deployment**
-  - No internet required for inference
-  - Complete data privacy
-  - Low latency responses
+---
 
-### Planned Features (Roadmap)
+## ✨ Fonctionnalités
 
-- 🔄 **Multi-language Support**
-  - Major world languages
-  - Regional language support
-  - Code-switching capabilities
+### Fonctionnalités Core (MVP)
 
-- 📊 **Analytics Dashboard**
-  - Usage statistics
-  - Performance metrics
-  - User insights
+#### 🎯 Génération de Réponses Intelligentes
+- Réponses contextuelles
+- Compréhension du langage naturel
+- Capacités de raisonnement sémantique
 
-- 🔌 **API Integration**
-  - REST API
-  - Webhooks
-  - Third-party integrations
+#### 💬 Gestion de Conversations
+- Historique basé sur sessions
+- Préservation du contexte
+- Support multi-utilisateurs
 
-- 🤖 **Advanced AI Models**
-  - Fine-tuning capabilities
-  - Domain-specific models
-  - Multi-modal support (text + images)
+#### 🖥️ Interface Web Simple
+- Construite avec Streamlit
+- UI de chat intuitive
+- Réponses en temps réel
+- Vue d'historique des conversations
+
+#### 🏗️ Architecture Modulaire
+- Modèles AI enfichables
+- Backend extensible
+- Intégration facile avec systèmes existants
+
+#### 🔒 Déploiement Local
+- Aucun Internet requis pour l'inférence
+- Confidentialité complète des données
+- Réponses à faible latence
+
+### Fonctionnalités Prévues (Roadmap)
+
+- 🔄 **Support multi-langue** : Langues mondiales majeures
+- 📊 **Dashboard analytique** : Statistiques d'utilisation et métriques
+- 🔌 **Intégrations API** : REST API, webhooks, intégrations tierces
+- 🤖 **Modèles AI avancés** : Fine-tuning, modèles spécialisés, support multi-modal
+
+---
+
+## 🚀 Installation Rapide
+
+### Prérequis
+
+- **Python** : 3.8 ou supérieur
+- **RAM** : 4GB minimum (8GB recommandé)
+- **Stockage** : 2GB d'espace libre
+- **OS** : Linux, macOS, ou Windows
+
+### Installation en 3 étapes
+
+```bash
+# 1. Cloner le repository
+git clone https://github.com/benjaminpolydeq/ARSLM.git
+cd ARSLM
+
+# 2. Installer les dépendances
+pip install -r requirements.txt
+
+# 3. Lancer l'application
+streamlit run streamlit_app.py
+```
+
+### Vérification
+
+Ouvrez votre navigateur à : `http://localhost:8501`
+
+Vous devriez voir l'interface de chat ARSLM.
 
 ---
 
 ## 🏗️ Architecture
 
-### System Architecture
+### Vue d'Ensemble du Système
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                        Client Layer                          │
-│                   (Streamlit Web Interface)                  │
-└─────────────────────┬───────────────────────────────────────┘
-                      │
-┌─────────────────────▼───────────────────────────────────────┐
-│                    Application Layer                         │
-│  ┌──────────────┬──────────────┬──────────────────────┐    │
-│  │   Session    │  Conversation│   Response           │    │
-│  │   Manager    │   Handler    │   Generator          │    │
-│  └──────────────┴──────────────┴──────────────────────┘    │
-└─────────────────────┬───────────────────────────────────────┘
-                      │
-┌─────────────────────▼───────────────────────────────────────┐
-│                      AI Core Layer                           │
-│  ┌──────────────┬──────────────┬──────────────────────┐    │
-│  │   Language   │   Semantic   │   Reasoning          │    │
-│  │   Model      │   Engine     │   Module             │    │
-│  └──────────────┴──────────────┴──────────────────────┘    │
-└─────────────────────┬───────────────────────────────────────┘
-                      │
-┌─────────────────────▼───────────────────────────────────────┐
-│                      Data Layer                              │
-│  ┌──────────────┬──────────────┬──────────────────────┐    │
-│  │  Conversation│   User       │   Knowledge          │    │
-│  │  History     │   Profiles   │   Base               │    │
-│  └──────────────┴──────────────┴──────────────────────┘    │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────┐
+│                    Interface Client                      │
+│               (Streamlit Web Interface)                  │
+└────────────────────┬────────────────────────────────────┘
+                     │
+┌────────────────────▼────────────────────────────────────┐
+│                 Couche Application                       │
+│  ┌──────────────┬──────────────┬─────────────────┐     │
+│  │   Gestion    │   Gestion    │   Générateur    │     │
+│  │   Sessions   │ Conversations│   Réponses      │     │
+│  └──────────────┴──────────────┴─────────────────┘     │
+└────────────────────┬────────────────────────────────────┘
+                     │
+┌────────────────────▼────────────────────────────────────┐
+│                   Cœur AI (ARSLM)                        │
+│  ┌──────────────┬──────────────┬─────────────────┐     │
+│  │   Modèle     │   Moteur     │   Module        │     │
+│  │   Langage    │  Sémantique  │  Raisonnement   │     │
+│  └──────────────┴──────────────┴─────────────────┘     │
+└────────────────────┬────────────────────────────────────┘
+                     │
+┌────────────────────▼────────────────────────────────────┐
+│                  Couche Données                          │
+│  ┌──────────────┬──────────────┬─────────────────┐     │
+│  │  Historique  │   Profils    │     Base        │     │
+│  │Conversations │  Utilisateurs│  Connaissances  │     │
+│  └──────────────┴──────────────┴─────────────────┘     │
+└─────────────────────────────────────────────────────────┘
 ```
 
-### Component Breakdown
+### Stack Technologique
 
-#### 1. **Client Layer**
-- **Streamlit Interface**: Simple, responsive web UI
-- **Real-time Chat**: Instant message delivery
-- **History View**: Access to past conversations
-
-#### 2. **Application Layer**
-- **Session Manager**: Handles user sessions and authentication
-- **Conversation Handler**: Manages dialog flow and context
-- **Response Generator**: Orchestrates AI model calls
-
-#### 3. **AI Core Layer**
-- **Language Model**: Neural network for text generation
-- **Semantic Engine**: Understanding and meaning extraction
-- **Reasoning Module**: Logic and inference capabilities
-
-#### 4. **Data Layer**
-- **Conversation History**: Persistent chat storage
-- **User Profiles**: User preferences and settings
-- **Knowledge Base**: Domain-specific information
-
-### Technology Stack
-
-| Component | Technology | Purpose |
-|-----------|-----------|---------|
-| **Frontend** | Streamlit | Web interface |
-| **Backend** | Python, FastAPI | Application logic |
-| **AI Engine** | PyTorch, Transformers | Language model |
-| **Database** | SQLite / PostgreSQL | Data persistence |
-| **Deployment** | Docker, Docker Compose | Containerization |
-| **Monitoring** | Prometheus, Grafana | Performance tracking |
+| Composant | Technologie | Usage |
+|-----------|-------------|-------|
+| **Frontend** | Streamlit | Interface web |
+| **Backend** | Python | Logique applicative |
+| **Moteur AI** | PyTorch/Custom | Modèle de langage |
+| **Base de données** | SQLite/JSON | Persistance |
+| **Déploiement** | Docker | Conteneurisation |
 
 ---
 
-## 🚀 Installation
+## 🎯 Démarrage Rapide
 
-### Prerequisites
-
-- **Python**: 3.8 or higher
-- **RAM**: 4GB minimum (8GB recommended)
-- **Storage**: 2GB free space
-- **OS**: Linux, macOS, or Windows
-
-### Method 1: Quick Install (Recommended)
-
-```bash
-# Clone the repository
-git clone https://github.com/benjaminpolydeq/ARSLM.git
-cd ARSLM
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the application
-streamlit run app.py
-```
-
-### Method 2: Docker Installation
-
-```bash
-# Clone repository
-git clone https://github.com/benjaminpolydeq/ARSLM.git
-cd ARSLM
-
-# Build Docker image
-docker build -t arslm:latest .
-
-# Run container
-docker run -p 8501:8501 arslm:latest
-```
-
-### Method 3: Docker Compose (Production)
-
-```bash
-# Clone repository
-git clone https://github.com/benjaminpolydeq/ARSLM.git
-cd ARSLM
-
-# Start services
-docker-compose up -d
-
-# Check status
-docker-compose ps
-```
-
-### Verify Installation
-
-Open your browser and navigate to:
-```
-http://localhost:8501
-```
-
-You should see the ARSLM chat interface.
-
----
-
-## 🎯 Quick Start
-
-### Basic Usage
+### Utilisation de Base
 
 ```python
-from arslm import ARSLM
+from microllm_core import MicroLLMCore
 
-# Initialize the model
-model = ARSLM()
+# Initialiser le modèle
+model = MicroLLMCore()
 
-# Generate a response
+# Générer une réponse
 response = model.generate(
-    prompt="What are the benefits of AI for African businesses?",
+    prompt="Quels sont les bénéfices de l'IA pour les entreprises africaines ?",
     max_length=150
 )
 
 print(response)
 ```
 
-### Web Interface
+### Interface Web
 
-1. **Start the application**:
+1. **Démarrer l'application** :
    ```bash
-   streamlit run app.py
+   streamlit run streamlit_app.py
    ```
 
-2. **Open in browser**: http://localhost:8501
+2. **Ouvrir dans le navigateur** : http://localhost:8501
 
-3. **Start chatting**:
-   - Type your message in the input box
-   - Press Enter or click Send
-   - View AI responses in real-time
+3. **Commencer à chatter** :
+   - Tapez votre message dans la zone de saisie
+   - Appuyez sur Entrée ou cliquez sur Envoyer
+   - Visualisez les réponses AI en temps réel
 
-4. **View history**:
-   - Click "Conversation History" in sidebar
-   - Browse past conversations
-   - Export conversations as needed
-
-### API Usage
-
-```python
-import requests
-
-# API endpoint
-url = "http://localhost:8000/api/v1/chat"
-
-# Send message
-response = requests.post(
-    url,
-    json={
-        "message": "Hello, how can you help my business?",
-        "session_id": "user123"
-    }
-)
-
-# Get response
-data = response.json()
-print(data['response'])
-```
+4. **Voir l'historique** :
+   - Cliquez sur "Historique des conversations" dans la barre latérale
+   - Parcourez les conversations passées
+   - Exportez les conversations si nécessaire
 
 ---
 
-## 💼 Use Cases
+## 💼 Cas d'Usage
 
-### 1. Customer Support Chatbot
+### 1. Chatbot Support Client 🤝
 
-**Problem**: SMEs worldwide can't afford 24/7 customer support  
-**Solution**: ARSLM-powered chatbot handling common queries
+**Problème** : PME ne pouvant pas se permettre un support 24/7  
+**Solution** : Chatbot propulsé par ARSLM gérant les requêtes courantes
 
-**Benefits**:
-- 🕐 24/7 availability
-- 💰 Reduced support costs
-- 🌍 Multi-language support
-- 📊 Conversation analytics
+**Bénéfices** :
+- 🕐 Disponibilité 24/7
+- 💰 Coûts de support réduits
+- 🌍 Support multi-langue
+- 📊 Analytiques des conversations
 
-**Example Implementation**:
-```python
-from arslm import CustomerSupportBot
+### 2. Assistant Commercial 💼
 
-bot = CustomerSupportBot(
-    knowledge_base="products.json",
-    language="french"
-)
+**Problème** : Équipes commerciales nécessitant un accès rapide aux infos produits  
+**Solution** : Assistant AI fournissant détails et recommandations instantanés
 
-response = bot.handle_query(
-    "Comment puis-je suivre ma commande?"
-)
-```
+**Bénéfices** :
+- 🚀 Temps de réponse plus rapides
+- 🎯 Meilleure qualification des leads
+- 📈 Taux de conversion augmentés
+- 🤝 Messaging cohérent
 
-### 2. Sales Assistant
+### 3. Base de Connaissances Interne 📚
 
-**Problem**: Sales teams need quick access to product information  
-**Solution**: AI assistant providing instant product details and recommendations
+**Problème** : Employés perdant du temps à chercher des informations  
+**Solution** : Assistant de connaissances propulsé par AI
 
-**Benefits**:
-- 🚀 Faster response times
-- 🎯 Better lead qualification
-- 📈 Increased conversion rates
-- 🤝 Consistent messaging
+**Bénéfices** :
+- ⚡ Récupération instantanée d'informations
+- 📚 Connaissances centralisées
+- 🔍 Recherche sémantique
+- 🎓 Support d'onboarding
 
-**Example Implementation**:
-```python
-from arslm import SalesAssistant
+### 4. Analyste de Marché 📊
 
-assistant = SalesAssistant(
-    product_catalog="catalog.csv",
-    sales_data="history.db"
-)
+**Problème** : Analyse des tendances de marché chronophage  
+**Solution** : Analyste AI traitant news, rapports, et réseaux sociaux
 
-recommendation = assistant.recommend_product(
-    customer_profile="small_business",
-    budget=10000
-)
-```
-
-### 3. Internal Knowledge Base
-
-**Problem**: Employees waste time searching for company information  
-**Solution**: AI-powered knowledge assistant
-
-**Benefits**:
-- ⚡ Instant information retrieval
-- 📚 Centralized knowledge
-- 🔍 Semantic search
-- 🎓 Onboarding support
-
-**Example Implementation**:
-```python
-from arslm import KnowledgeAssistant
-
-kb = KnowledgeAssistant(
-    documents_path="company_docs/",
-    index_type="semantic"
-)
-
-answer = kb.query(
-    "What is our expense reimbursement policy?"
-)
-```
-
-### 4. Market Research Analyst
-
-**Problem**: Analyzing global market trends is time-consuming  
-**Solution**: AI analyst processing news, reports, and social media
-
-**Benefits**:
-- 📊 Real-time insights
-- 🌍 Global coverage
-- 🎯 Competitor analysis
-- 📈 Trend prediction
-
-**Example Implementation**:
-```python
-from arslm import MarketAnalyst
-
-analyst = MarketAnalyst(
-    sources=["news", "social_media", "reports"],
-    regions=["global", "asia", "europe"]
-)
-
-insights = analyst.analyze_trend(
-    topic="fintech",
-    timeframe="30_days"
-)
-```
-
-### 5. Educational Tutor
-
-**Problem**: Limited access to quality personalized education  
-**Solution**: AI tutor providing personalized learning
-
-**Benefits**:
-- 🎓 Personalized learning paths
-- 🗣️ Multi-language support
-- 📱 Mobile-first design
-- 💰 Affordable education
-
----
-
-## 🎨 Product Vision
-
-### Target Markets
-
-#### Primary Markets (Phase 1)
-
-1. **Emerging Markets**
-   - Southeast Asia: Indonesia, Philippines, Vietnam, Thailand
-   - Latin America: Brazil, Mexico, Colombia, Argentina
-   - Middle East: UAE, Saudi Arabia, Egypt
-   - Africa: Nigeria, Kenya, South Africa, Ghana
-   - Eastern Europe: Poland, Romania, Ukraine
-
-2. **Developed Markets** (Phase 2)
-   - North America: USA, Canada
-   - Western Europe: UK, Germany, France, Spain
-   - Asia-Pacific: Japan, Australia, Singapore
-
-#### Target Sectors
-
-- 🏦 **Financial Services**: Banks, fintech, insurance, microfinance
-- 🛒 **E-commerce**: Online retailers, marketplaces, D2C brands
-- 🏥 **Healthcare**: Clinics, telemedicine, health tech
-- 🎓 **Education**: EdTech, online learning, universities
-- 🏢 **SMEs**: Small and medium enterprises across all sectors
-- 🏨 **Hospitality**: Hotels, restaurants, travel agencies
-- 🏭 **Manufacturing**: B2B companies, distributors
-
-### Value Proposition
-
-**For Small Businesses (< 50 employees)**:
-- 💰 **Affordable**: Fixed monthly pricing starting at $99
-- 🚀 **Quick Setup**: Deploy in < 1 day
-- 📱 **Mobile-First**: Works on smartphones and tablets
-- 🌍 **Local Deployment**: No dependency on cloud connectivity
-
-**For Medium Enterprises (50-500 employees)**:
-- 🏢 **On-Premises**: Full data control and compliance
-- 🔧 **Customizable**: Adapt to business processes
-- 📊 **Analytics**: Detailed usage and performance insights
-- 🤝 **Integration**: Connect with existing tools (CRM, ERP)
-
-**For Large Enterprises (500+ employees)**:
-- 🏗️ **Scalable**: Handle thousands of concurrent users
-- 🔒 **Secure**: Enterprise-grade security and compliance
-- 🌐 **Multi-Tenant**: Department and region isolation
-- 🆘 **Support**: Dedicated account manager and SLA
-
-### Competitive Advantages
-
-| Feature | ARSLM | OpenAI API | Open Source |
-|---------|-------|-----------|-------------|
-| **Cost** | Low fixed | High variable | Free but complex |
-| **Privacy** | Complete | Limited | Complete |
-| **Latency** | Low (local) | Medium-High | Low (local) |
-| **Customization** | High | Low | High (technical) |
-| **Emerging Markets** | Optimized | Generic | No focus |
-| **Support** | Dedicated | Generic | Community |
-| **Deployment** | Simple | N/A | Complex |
-| **Compliance** | Full control | Shared | Self-managed |
+**Bénéfices** :
+- 📊 Insights en temps réel
+- 🌍 Couverture globale
+- 🎯 Analyse concurrentielle
+- 📈 Prédiction de tendances
 
 ---
 
 ## 📡 API Reference
 
-### REST API Endpoints
+### Structure des Fichiers
 
-#### 1. Generate Response
-
-```http
-POST /api/v1/chat
-Content-Type: application/json
-
-{
-  "message": "What are your business hours?",
-  "session_id": "user123",
-  "language": "en"
-}
+```
+ARSLM/
+├── ARSLM.py              # Moteur principal
+├── ARSLM.init.py         # Initialisation
+├── microllm_core.py      # Cœur du modèle
+├── main.py               # Point d'entrée
+├── streamlit_app.py      # Interface Streamlit
+├── requirements.txt      # Dépendances
+└── README.md            # Documentation
 ```
 
-**Response**:
-```json
-{
-  "response": "Our business hours are Monday to Friday, 9 AM to 5 PM.",
-  "session_id": "user123",
-  "timestamp": "2025-12-20T10:30:00Z",
-  "confidence": 0.95
-}
-```
-
-#### 2. Get Conversation History
-
-```http
-GET /api/v1/history/{session_id}
-```
-
-**Response**:
-```json
-{
-  "session_id": "user123",
-  "messages": [
-    {
-      "role": "user",
-      "content": "Hello",
-      "timestamp": "2025-12-20T10:25:00Z"
-    },
-    {
-      "role": "assistant",
-      "content": "Hello! How can I help you today?",
-      "timestamp": "2025-12-20T10:25:01Z"
-    }
-  ]
-}
-```
-
-#### 3. Clear History
-
-```http
-DELETE /api/v1/history/{session_id}
-```
-
-#### 4. Health Check
-
-```http
-GET /health
-```
-
-**Response**:
-```json
-{
-  "status": "healthy",
-  "version": "1.0.0-MVP",
-  "uptime": 3600
-}
-```
-
-### Python SDK
+### Exemple d'Utilisation
 
 ```python
-from arslm.client import ARSLMClient
+# Importer le moteur
+from ARSLM import ARSLM
 
-# Initialize client
-client = ARSLMClient(
-    api_url="http://localhost:8000",
-    api_key="your_api_key"
+# Initialiser
+engine = ARSLM()
+
+# Générer une réponse
+response = engine.generate_response(
+    query="Comment puis-je améliorer mon service client ?",
+    context=[]
 )
 
-# Send message
-response = client.chat(
-    message="Tell me about your services",
-    session_id="user123"
-)
-
-# Get history
-history = client.get_history("user123")
-
-# Clear history
-client.clear_history("user123")
+print(response)
 ```
 
 ---
 
-## 🐳 Deployment
+## 🐳 Déploiement
 
-### Development Deployment
+### Déploiement Local
 
 ```bash
-# Start development server
-streamlit run app.py
-
-# Or with hot reload
-streamlit run app.py --server.runOnSave true
+# Cloner et lancer
+git clone https://github.com/benjaminpolydeq/ARSLM.git
+cd ARSLM
+pip install -r requirements.txt
+streamlit run streamlit_app.py
 ```
 
-### Production Deployment
+### Déploiement Streamlit Cloud
 
-#### Option 1: Docker
+1. Allez sur [share.streamlit.io](https://share.streamlit.io)
+2. Cliquez sur "New app"
+3. Configurez :
+   - **Repository** : `benjaminpolydeq/ARSLM`
+   - **Branch** : `main`
+   - **Main file** : `streamlit_app.py`
+4. Cliquez sur "Deploy"
 
-```dockerfile
-# Dockerfile
+### Déploiement Docker
+
+```bash
+# Créer un Dockerfile
+cat > Dockerfile << 'EOF'
 FROM python:3.10-slim
 
 WORKDIR /app
@@ -650,874 +359,159 @@ COPY . .
 
 EXPOSE 8501
 
-CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
-```
+CMD ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+EOF
 
-```bash
-# Build and run
+# Build et run
 docker build -t arslm:latest .
-docker run -d -p 8501:8501 --name arslm arslm:latest
+docker run -p 8501:8501 arslm:latest
 ```
-
-#### Option 2: Docker Compose
-
-```yaml
-# docker-compose.yml
-version: '3.8'
-
-services:
-  arslm:
-    build: .
-    ports:
-      - "8501:8501"
-    environment:
-      - ENVIRONMENT=production
-      - DATABASE_URL=postgresql://user:pass@db:5432/arslm
-    depends_on:
-      - db
-    restart: unless-stopped
-
-  db:
-    image: postgres:15-alpine
-    environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=pass
-      - POSTGRES_DB=arslm
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./ssl:/etc/nginx/ssl
-    depends_on:
-      - arslm
-
-volumes:
-  postgres_data:
-```
-
-```bash
-# Deploy
-docker-compose up -d
-```
-
-#### Option 3: Cloud Deployment
-
-**AWS Deployment**:
-```bash
-# Install AWS CLI and EB CLI
-pip install awscli awsebcli
-
-# Initialize EB application
-eb init -p python-3.10 arslm
-
-# Create environment
-eb create arslm-production
-
-# Deploy
-eb deploy
-```
-
-**Azure Deployment**:
-```bash
-# Install Azure CLI
-pip install azure-cli
-
-# Login
-az login
-
-# Create resource group
-az group create --name arslm-rg --location westeurope
-
-# Deploy container
-az container create \
-  --resource-group arslm-rg \
-  --name arslm \
-  --image arslm:latest \
-  --ports 8501 \
-  --dns-name-label arslm
-```
-
----
-
-## 💰 Business Model
-
-### Pricing Tiers
-
-#### 1. **Starter Plan** - $99/month
-- ✅ Up to 5,000 conversations/month
-- ✅ 1 language
-- ✅ Community support
-- ✅ Basic analytics
-- ✅ Web interface
-
-**Target**: Small businesses, startups
-
-#### 2. **Professional Plan** - $299/month
-- ✅ Up to 25,000 conversations/month
-- ✅ 3 languages
-- ✅ Email support (48h response)
-- ✅ Advanced analytics
-- ✅ API access
-- ✅ Custom branding
-
-**Target**: Growing businesses, agencies
-
-#### 3. **Enterprise Plan** - Custom Pricing
-- ✅ Unlimited conversations
-- ✅ All languages
-- ✅ 24/7 priority support
-- ✅ Custom AI models
-- ✅ On-premises deployment
-- ✅ SLA guarantee
-- ✅ Dedicated account manager
-- ✅ White-label option
-
-**Target**: Large enterprises, corporations
-
-### Revenue Projections (Year 1)
-
-| Month | Starter | Professional | Enterprise | MRR | ARR |
-|-------|---------|--------------|------------|-----|-----|
-| Month 3 | 15 | 3 | 0 | $2,382 | $28,584 |
-| Month 6 | 50 | 12 | 2 | $8,538 | $102,456 |
-| Month 12 | 150 | 35 | 8 | $33,335 | $400,020 |
-
-*Conservative estimates based on B2B SaaS benchmarks*
-
-### Go-to-Market Strategy
-
-**Phase 1: MVP Validation (Months 1-3)**
-- 🎯 Target: Pilot with 15-20 early adopters
-- 📍 Focus: High-growth emerging markets + developed markets
-- 💰 Pricing: Standard pricing with implementation support
-- 🎁 Offer: 30-day free trial, onboarding assistance
-
-**Phase 2: Market Expansion (Months 4-6)**
-- 🎯 Target: 50-75 active customers
-- 📍 Expand: Multiple regions simultaneously
-- 🤝 Partnerships: Tech hubs, accelerators, system integrators
-- 📣 Marketing: Content marketing, case studies, webinars, PPC
-
-**Phase 3: Scale & Optimize (Months 7-12)**
-- 🎯 Target: 150-200+ customers
-- 📍 Expand: Global presence with regional partners
-- 💼 Sales: Build inside sales team, channel partnerships
-- 🏆 Positioning: Industry thought leadership, awards, recognition
 
 ---
 
 ## 🗺️ Roadmap
 
-### Q1 2026: MVP Enhancement
+### Q1 2026 : Amélioration MVP ✅
+- ✅ Interface de chat basique
+- ✅ Historique des conversations
+- ✅ Modèle AI simple
+- 🔄 Support multi-langue (Espagnol, Portugais, Français, Arabe)
+- 🔄 Documentation API complète
 
-- [x] ✅ Basic chat interface
-- [x] ✅ Conversation history
-- [x] ✅ Simple AI model
-- [ ] 🔄 Multi-language support (Spanish, Portuguese, French, Arabic)
-- [ ] 🔄 API documentation
-- [ ] 🔄 Docker deployment
+### Q2 2026 : Expansion Fonctionnalités 🚀
+- Modèles AI avancés (fine-tuning)
+- Dashboard analytique
+- Application mobile (Android/iOS)
+- Entrée/sortie vocale
+- Intégration WhatsApp
 
-### Q2 2026: Feature Expansion
+### Q3 2026 : Fonctionnalités Entreprise 🏢
+- Architecture multi-tenant
+- Contrôle d'accès basé sur rôles
+- Support domaine personnalisé
+- Option white-label
+- Sécurité avancée (SSO, 2FA)
 
-- [ ] Advanced AI models (fine-tuning)
-- [ ] Analytics dashboard
-- [ ] Mobile app (Android/iOS)
-- [ ] Voice input/output
-- [ ] Integration with WhatsApp
-
-### Q3 2026: Enterprise Features
-
-- [ ] Multi-tenant architecture
-- [ ] Role-based access control
-- [ ] Custom domain support
-- [ ] White-label option
-- [ ] Advanced security (SSO, 2FA)
-
-### Q4 2026: AI Enhancements
-
-- [ ] Multi-modal support (images, documents)
-- [ ] Sentiment analysis
-- [ ] Intent classification
-- [ ] Automated training
-- [ ] A/B testing framework
-
-### 2027: Pan-African Expansion
-
-- [ ] Support for 20+ African languages
-- [ ] Regional data centers
-- [ ] Offline mode
-- [ ] Edge deployment
-- [ ] Marketplace for integrations
+### Q4 2026 : Améliorations AI 🤖
+- Support multi-modal (images, documents)
+- Analyse de sentiment
+- Classification d'intention
+- Entraînement automatisé
+- Framework A/B testing
 
 ---
 
-## 🤝 Contributing
+## 🤝 Contribuer
 
-We welcome contributions from developers across Africa and globally!
+Nous accueillons les contributions de développeurs du monde entier !
 
-### How to Contribute
+### Comment Contribuer
 
-1. **Fork the repository**
+1. **Fork le repository**
    ```bash
    git clone https://github.com/YOUR_USERNAME/ARSLM.git
    ```
 
-2. **Create a feature branch**
+2. **Créer une branche feature**
    ```bash
-   git checkout -b feature/amazing-feature
+   git checkout -b feature/fonctionnalite-incroyable
    ```
 
-3. **Make your changes**
-   - Write clean, documented code
-   - Add tests for new features
-   - Follow coding standards
+3. **Faire vos changements**
+   - Écrire du code propre et documenté
+   - Ajouter des tests pour les nouvelles fonctionnalités
+   - Suivre les standards de codage
 
-4. **Commit and push**
+4. **Commit et push**
    ```bash
-   git commit -m "Add amazing feature"
-   git push origin feature/amazing-feature
+   git commit -m "Ajout fonctionnalité incroyable"
+   git push origin feature/fonctionnalite-incroyable
    ```
 
-5. **Open a Pull Request**
-   - Describe your changes
-   - Link related issues
-   - Wait for review
+5. **Ouvrir une Pull Request**
+   - Décrire vos changements
+   - Lier les issues associées
+   - Attendre la review
 
-### Development Guidelines
+### Domaines de Contribution
 
-- Follow PEP 8 for Python code
-- Write docstrings for all functions
-- Add unit tests (pytest)
-- Update documentation
-- Keep commits atomic and descriptive
-
-### Areas for Contribution
-
-- 🌍 **African Language Support**: Add new languages
-- 🎨 **UI/UX**: Improve interface design
-- 🧠 **AI Models**: Enhance model performance
-- 📚 **Documentation**: Improve docs and tutorials
-- 🐛 **Bug Fixes**: Report and fix issues
-- 🧪 **Testing**: Expand test coverage
+- 🌍 **Support Langues Africaines** : Ajouter de nouvelles langues
+- 🎨 **UI/UX** : Améliorer le design de l'interface
+- 🧠 **Modèles AI** : Améliorer les performances du modèle
+- 📚 **Documentation** : Améliorer docs et tutoriels
+- 🐛 **Corrections de Bugs** : Signaler et corriger les problèmes
+- 🧪 **Testing** : Étendre la couverture de tests
 
 ---
 
 ## 📞 Contact
 
-### Project Owner
+### Propriétaire du Projet
 
 **BENJAMIN AMAAD KAMA**
 
-- 📧 Email: benjokama@hotmail.fr
-- 💼 GitHub: [@benjaminpolydeq](https://github.com/benjaminpolydeq)
-- 🌐 Project: [ARSLM](https://github.com/benjaminpolydeq/ARSLM)
+- 📧 Email : [benjokama@hotmail.fr](mailto:benjokama@hotmail.fr)
+- 💼 GitHub : [@benjaminpolydeq](https://github.com/benjaminpolydeq)
+- 🌐 Projet : [ARSLM](https://github.com/benjaminpolydeq/ARSLM)
 
-### For Investors
+### Pour les Investisseurs
 
-Interested in investing or partnering?
+Intéressé par investir ou partenariat ?
 
-- 📧 Business Inquiries: benjokama@hotmail.fr
-- 📄 Pitch Deck: [Request Access](mailto:benjokama@hotmail.fr?subject=ARSLM%20Pitch%20Deck)
-- 💼 LinkedIn: [Connect](https://linkedin.com/in/benjamin-kama)
+- 📧 Demandes Business : [benjokama@hotmail.fr](mailto:benjokama@hotmail.fr)
+- 📄 Pitch Deck : [Demander l'accès](mailto:benjokama@hotmail.fr?subject=ARSLM%20Pitch%20Deck)
 
-### For Customers
+### Pour les Clients
 
-Want to use ARSLM for your business?
+Vous voulez utiliser ARSLM pour votre entreprise ?
 
-- 📧 Sales: benjokama@hotmail.fr
-- 📞 Demo Request: [Schedule a Call](mailto:benjokama@hotmail.fr?subject=ARSLM%20Demo%20Request)
-- 💬 Community: [Join Discord](#)
+- 📧 Ventes : [benjokama@hotmail.fr](mailto:benjokama@hotmail.fr)
+- 📞 Demande de Démo : [Planifier un appel](mailto:benjokama@hotmail.fr?subject=ARSLM%20Demo%20Request)
 
 ---
 
-## 📄 License
+## 📄 Licence
 
-**Proprietary Software License**
+**MIT License**
 
-Copyright © 2025 BENJAMIN AMAAD KAMA. All Rights Reserved.
+Copyright © 2025 BENJAMIN AMAAD KAMA. Tous droits réservés.
 
-This is proprietary software. Unauthorized copying, distribution, or use is strictly prohibited.
-
-For licensing inquiries, contact: benjokama@hotmail.fr
-
-See [LICENSE](LICENSE) file for full terms.
+Voir le fichier [LICENSE](LICENSE) pour les termes complets.
 
 ---
 
-## 🎯 Investor Information
+## 🙏 Remerciements
 
-### Investment Opportunity
+Merci spécial à :
 
-ARSLM is seeking **$250,000 seed funding** to:
-
-- 🚀 Scale product development (6-month runway)
-- 👥 Build core team (2 engineers, 1 marketer)
-- 🌍 Expand to 5 African countries
-- 💼 Acquire 150+ customers
-
-### Traction (as of December 2025)
-
-- ✅ Functional MVP deployed
-- ✅ 5 beta customers (Nigeria, Kenya)
-- ✅ $2,500 MRR (pilot programs)
-- ✅ Partnership discussions with 3 tech hubs
-- ✅ 95% customer satisfaction score
-
-### Team
-
-**BENJAMIN AMAAD KAMA** - Founder & CEO
-- Background in AI/ML and software engineering
-- Experience in African tech ecosystems
-- Author of Benpolyseq-ARS and MicroLLM Studio
-
-### Use of Funds
-
-| Category | Percentage | Amount |
-|----------|-----------|--------|
-| Product Development | 40% | $100,000 |
-| Team Building | 35% | $87,500 |
-| Marketing & Sales | 15% | $37,500 |
-| Operations | 10% | $25,000 |
-
-### Contact for Investment
-
-📧 Email: benjokama@hotmail.fr  
-Subject: "ARSLM Investment Inquiry"
+- Communautés tech africaines pour l'inspiration
+- Beta clients pour leurs retours précieux
+- Contributeurs open source
+- Investisseurs et supporters
 
 ---
 
-## 🙏 Acknowledgments
+## 📊 Statut du Projet
 
-Special thanks to:
+[![GitHub Stars](https://img.shields.io/github/stars/benjaminpolydeq/ARSLM?style=social)](https://github.com/benjaminpolydeq/ARSLM/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/benjaminpolydeq/ARSLM?style=social)](https://github.com/benjaminpolydeq/ARSLM/network/members)
+[![GitHub Issues](https://img.shields.io/github/issues/benjaminpolydeq/ARSLM)](https://github.com/benjaminpolydeq/ARSLM/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/benjaminpolydeq/ARSLM)](https://github.com/benjaminpolydeq/ARSLM/pulls)
 
-- African tech communities for inspiration
-- Beta customers for valuable feedback
-- Open source contributors
-- Investors and supporters
-
----
-
-## 📊 Project Status
-
-![GitHub Stars](https://img.shields.io/github/stars/benjaminpolydeq/ARSLM?style=social)
-![GitHub Forks](https://img.shields.io/github/forks/benjaminpolydeq/ARSLM?style=social)
-![GitHub Issues](https://img.shields.io/github/issues/benjaminpolydeq/ARSLM)
-![GitHub Pull Requests](https://img.shields.io/github/issues-pr/benjaminpolydeq/ARSLM)
-
-**Current Stage**: MVP (Investor Demo)  
-**Next Milestone**: Seed Funding Round  
-**Target**: 150 customers by Q4 2026
+**Étape Actuelle** : MVP (Demo Investisseurs)  
+**Prochain Jalon** : Levée de fonds Seed  
+**Objectif** : 150 clients d'ici Q4 2026
 
 ---
 
-<div align="center">
+## 🎯 Démo en Ligne
 
-**🌍 Built for Africa, by Africa**
-
-**Made with ❤️ by Benjamin Amaad Kama**
-
-[⬆ Back to Top](#-arslm---adaptive-reasoning-semantic-language-model)
-
-</div>
-
-# 🧠 ARSLM - Adaptive Reasoning Semantic Language Model
-
-[![PyPI version](https://badge.fury.io/py/arslm.svg)](https://badge.fury.io/py/arslm)
-[![Python Version](https://img.shields.io/pypi/pyversions/arslm.svg)](https://pypi.org/project/arslm/)
-[![License](https://img.shields.io/pypi/l/arslm.svg)](https://github.com/benjaminpolydeq/ARSLM/blob/main/LICENSE)
-[![Downloads](https://pepy.tech/badge/arslm)](https://pepy.tech/project/arslm)
-[![Tests](https://github.com/benjaminpolydeq/ARSLM/workflows/Tests/badge.svg)](https://github.com/benjaminpolydeq/ARSLM/actions)
-
-**Lightweight AI Engine for Intelligent Response Generation**
-
-ARSLM is a modern, efficient language model designed for businesses worldwide requiring intelligent conversational capabilities without the complexity and cost of large-scale cloud solutions.
+🚀 **Essayez ARSLM maintenant** : [Demo Live](https://arslm.streamlit.app)
 
 ---
 
-## ✨ Features
+**🌍 Construit pour le monde, à partir de l'Afrique**
 
-- 🚀 **Lightweight**: Runs on modest hardware (4GB RAM minimum)
-- 💬 **Conversational AI**: Intelligent chatbot capabilities with context awareness
-- 🔒 **Privacy-First**: Deploy on-premises or private cloud for complete data control
-- 🌍 **Multi-Language Ready**: Extensible architecture for any language
-- 📦 **Easy Integration**: Simple Python API with minimal dependencies
-- ⚡ **Fast**: Optimized for low latency responses
-- 🔧 **Modular**: Plug-and-play components for custom architectures
-- 🎯 **Production-Ready**: Built with FastAPI, includes CLI tools and REST API
+**Fait avec ❤️ par Benjamin Amaad Kama**
 
----
-
-## 📦 Installation
-
-### Basic Installation
-
-```bash
-pip install arslm
-```
-
-### With Optional Dependencies
-
-```bash
-# For web interface
-pip install arslm[streamlit]
-
-# For development
-pip install arslm[dev]
-
-# For Jupyter notebooks
-pip install arslm[jupyter]
-
-# Install everything
-pip install arslm[all]
-```
-
-### From Source
-
-```bash
-git clone https://github.com/benjaminpolydeq/ARSLM.git
-cd ARSLM
-pip install -e .
-```
-
----
-
-## 🚀 Quick Start
-
-### Basic Usage
-
-```python
-from arslm import ARSLM
-
-# Initialize model
-model = ARSLM()
-
-# Generate response
-response = model.generate(
-    prompt="What are the benefits of AI for businesses?",
-    max_length=100,
-    temperature=0.8
-)
-
-print(response)
-```
-
-### Chat Interface
-
-```python
-from arslm import ARSLM
-
-# Create model
-model = ARSLM()
-
-# Interactive conversation
-while True:
-    user_input = input("You: ")
-    if user_input.lower() in ['exit', 'quit']:
-        break
-    
-    response = model.generate(user_input)
-    print(f"ARSLM: {response}")
-```
-
-### API Client
-
-```python
-from arslm import ARSLMClient
-
-# Connect to ARSLM server
-client = ARSLMClient(url="http://localhost:8000")
-
-# Send message
-response = client.chat(
-    message="Tell me about your services",
-    session_id="user123"
-)
-
-print(response['text'])
-```
-
-### Command Line Interface
-
-```bash
-# Generate text
-arslm generate --prompt "Hello, world!" --max-length 100
-
-# Start API server
-arslm serve --host 0.0.0.0 --port 8000
-
-# Interactive chat
-arslm chat
-
-# Model information
-arslm info
-```
-
----
-
-## 🏗️ Architecture
-
-ARSLM combines three core technologies:
-
-1. **Adaptive Recurrent Networks**: LSTM/GRU with dynamic behavior adaptation
-2. **Multi-Head Attention**: Efficient attention mechanisms for context understanding
-3. **Adaptive Components**: Dynamic routing and computation for optimal performance
-
-```
-┌─────────────────────────────────────────┐
-│         ARSLM Architecture              │
-├─────────────────────────────────────────┤
-│                                         │
-│  ┌───────────────────────────────────┐ │
-│  │   Embedding Layer                 │ │
-│  │   (Token + Position)              │ │
-│  └───────────────────────────────────┘ │
-│                 ↓                       │
-│  ┌───────────────────────────────────┐ │
-│  │   ARSLM Layers (x N)              │ │
-│  │                                   │ │
-│  │   • Multi-Head Attention          │ │
-│  │   • Adaptive Recurrent (LSTM)     │ │
-│  │   • Adaptive Layer (MoE)          │ │
-│  │   • Feed-Forward Network          │ │
-│  └───────────────────────────────────┘ │
-│                 ↓                       │
-│  ┌───────────────────────────────────┐ │
-│  │   Output Layer                    │ │
-│  │   (Vocabulary Projection)         │ │
-│  └───────────────────────────────────┘ │
-│                                         │
-└─────────────────────────────────────────┘
-```
-
----
-
-## 💡 Use Cases
-
-### 1. Customer Support Chatbot
-
-```python
-from arslm import ARSLM
-
-model = ARSLM()
-
-# Handle customer queries
-query = "How do I reset my password?"
-response = model.generate(query)
-```
-
-### 2. Content Generation
-
-```python
-from arslm import ARSLM
-
-model = ARSLM()
-
-# Generate blog post
-prompt = "Write about the future of AI in healthcare"
-content = model.generate(prompt, max_length=500)
-```
-
-### 3. Code Assistant
-
-```python
-from arslm import ARSLM
-
-model = ARSLM()
-
-# Code help
-prompt = "Explain how to use Python decorators"
-explanation = model.generate(prompt)
-```
-
----
-
-## 📚 Documentation
-
-### Core Components
-
-#### ARSLM Model
-
-The main model class:
-
-```python
-from arslm import ARSLM, ARSLMConfig
-
-# Custom configuration
-config = ARSLMConfig(
-    vocab_size=50000,
-    hidden_size=768,
-    num_layers=12,
-    num_heads=12,
-    max_length=512
-)
-
-# Create model
-model = ARSLM(config)
-
-# Generate text
-output = model.generate("Hello")
-```
-
-#### Tokenizer
-
-Text preprocessing and tokenization:
-
-```python
-from arslm.utils import ARSLMTokenizer
-
-# Create tokenizer
-tokenizer = ARSLMTokenizer()
-
-# Encode text
-token_ids = tokenizer.encode("Hello, world!")
-
-# Decode back
-text = tokenizer.decode(token_ids)
-```
-
-#### API Client
-
-Interact with ARSLM server:
-
-```python
-from arslm import ARSLMClient
-
-client = ARSLMClient("http://localhost:8000")
-
-# Chat
-response = client.chat("Hello", session_id="user1")
-
-# Generate
-response = client.generate("Write a poem", max_length=100)
-
-# Get history
-history = client.get_history("user1")
-```
-
----
-
-## 🛠️ Advanced Usage
-
-### Custom Model Architecture
-
-```python
-from arslm import ARSLMConfig, ARSLM
-
-# Create custom config
-config = ARSLMConfig(
-    vocab_size=30000,
-    hidden_size=512,
-    num_layers=6,
-    num_heads=8,
-    use_adaptive=True,
-    recurrent_type="lstm"
-)
-
-model = ARSLM(config)
-```
-
-### Fine-tuning
-
-```python
-from arslm import ARSLM
-import torch
-
-model = ARSLM()
-optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
-
-# Training loop
-for batch in dataloader:
-    input_ids = batch['input_ids']
-    labels = batch['labels']
-    
-    outputs = model(input_ids, labels=labels)
-    loss = outputs['loss']
-    
-    loss.backward()
-    optimizer.step()
-    optimizer.zero_grad()
-```
-
-### Saving and Loading
-
-```python
-from arslm import ARSLM
-
-# Save model
-model = ARSLM()
-model.save_pretrained("./my_model")
-
-# Load model
-loaded_model = ARSLM.from_pretrained("./my_model")
-```
-
----
-
-## 🌐 API Server
-
-Start the REST API server:
-
-```bash
-# Command line
-arslm serve --host 0.0.0.0 --port 8000
-
-# Or with Python
-python -m arslm.api.server
-```
-
-### API Endpoints
-
-- `POST /api/v1/chat` - Send chat message
-- `POST /api/v1/generate` - Generate text
-- `GET /api/v1/history/{session_id}` - Get conversation history
-- `DELETE /api/v1/history/{session_id}` - Clear history
-- `GET /health` - Health check
-- `GET /api/v1/model/info` - Model information
-
----
-
-## 🔧 Configuration
-
-### Model Configuration
-
-```python
-from arslm import ARSLMConfig
-
-config = ARSLMConfig(
-    vocab_size=50000,        # Vocabulary size
-    hidden_size=768,         # Hidden dimension
-    num_layers=12,           # Number of layers
-    num_heads=12,            # Attention heads
-    intermediate_size=3072,  # FFN dimension
-    max_length=512,          # Max sequence length
-    dropout=0.1,             # Dropout probability
-    use_adaptive=True,       # Use adaptive components
-)
-```
-
-### Environment Variables
-
-```bash
-ARSLM_MODEL_PATH=/path/to/model
-ARSLM_CACHE_DIR=/path/to/cache
-ARSLM_LOG_LEVEL=INFO
-```
-
----
-
-## 🧪 Testing
-
-```bash
-# Run all tests
-pytest
-
-# Run with coverage
-pytest --cov=arslm --cov-report=html
-
-# Run specific test
-pytest tests/test_model.py
-
-# Run only fast tests
-pytest -m "not slow"
-```
-
----
-
-## 📊 Performance
-
-| Model Size | Parameters | RAM Usage | Inference Speed |
-|-----------|-----------|-----------|----------------|
-| Small     | 50M       | 2GB       | 50 tokens/sec  |
-| Medium    | 150M      | 4GB       | 30 tokens/sec  |
-| Large     | 350M      | 8GB       | 15 tokens/sec  |
-
-*Benchmarked on CPU (Intel i7) and GPU (NVIDIA RTX 3060)*
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md).
-
-```bash
-# Fork and clone
-git clone https://github.com/YOUR_USERNAME/ARSLM.git
-
-# Create feature branch
-git checkout -b feature/amazing-feature
-
-# Make changes and test
-pytest tests/
-
-# Commit and push
-git commit -m "Add amazing feature"
-git push origin feature/amazing-feature
-
-# Open Pull Request
-```
-
----
-
-## 📝 Requirements
-
-- Python 3.8+
-- PyTorch 2.0+
-- 4GB RAM minimum (8GB recommended)
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 👤 Author
-
-**Benjamin Amaad Kama**
-
-- GitHub: [@benjaminpolydeq](https://github.com/benjaminpolydeq)
-- Email: benjokama@hotmail.fr
-
----
-
-## 🙏 Acknowledgments
-
-- Inspired by transformer architectures and recurrent networks
-- Built for businesses worldwide
-- Special thanks to the open-source community
-
----
-
-## 📞 Support
-
-- 📖 [Documentation](https://arslm.readthedocs.io)
-- 🐛 [Issue Tracker](https://github.com/benjaminpolydeq/ARSLM/issues)
-- 💬 [Discussions](https://github.com/benjaminpolydeq/ARSLM/discussions)
-
----
-
-## 🗺️ Roadmap
-
-- [x] Core model implementation
-- [x] REST API
-- [x] CLI tools
-- [ ] Multi-language support
-- [ ] Fine-tuning scripts
-- [ ] Streamlit web interface
-- [ ] Docker deployment
-- [ ] Model zoo with pretrained models
-- [ ] Quantization support
-- [ ] ONNX export
-
----
-
-**Made with ❤️ for businesses worldwide**
-
-⭐ Star us on [GitHub](https://github.com/benjaminpolydeq/ARSLM) if you find this project useful!
+[⬆ Retour en haut](#-arslm---adaptive-reasoning-semantic-language-model)
