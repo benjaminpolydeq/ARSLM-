@@ -1,58 +1,83 @@
 import streamlit as st
-from datetime import datetime
-from arslm.arslm import ARSLM
+import torch
+from transformers import AutoTokenizer, AutoModelForCausalLM
+from peft import PeftModel
 
-st.set_page_config(page_title="ARSLM Chat", layout="wide")
-st.title("🧠 ARSLM Chatbot")
-st.write("Chat interactif avec ARSLM (Adaptive Reasoning Semantic Language Model)")
+# =========================
+# CONFIG
+# =========================
+BASE_MODEL = "distilgpt2"          # ou ton modèle de base
+LORA_PATH = "./arslm_lora"          # dossier LoRA fine-tuné
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-# 1️⃣ Initialisation session
-if "arslm_session" not in st.session_state:
-    try:
-        st.session_state.arslm_session = ARSLM(device="cpu", custom_model=True)
-    except Exception as e:
-        st.error(f"Erreur lors de l'initialisation d'ARSLM: {e}")
+# =========================
+# PROMPT SYSTÈME (FREEZE)
+# =========================
+SYSTEM_PROMPT = """Tu es ARSLM, un assistant intelligent, professionnel et fiable.
+Tu réponds en français, de manière claire, structurée et utile.
+Tu ne répètes jamais inutilement les mots.
+Tu expliques les concepts de façon pédagogique.
+Si une question est ambiguë, tu demandes une clarification.
+Réponds toujours de manière naturelle et cohérente.
+"""
 
-if "history" not in st.session_state:
-    st.session_state.history = []
+# =========================
+# CHARGEMENT MODÈLE
+# =========================
+@st.cache_resource
+def load_model():
+    tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL)
+    tokenizer.pad_token = tokenizer.eos_token
 
-# 2️⃣ Reset bouton
-if st.button("🔄 Reset Conversation"):
-    if "arslm_session" in st.session_state:
-        st.session_state.arslm_session.clear_history()
-    st.session_state.history = []
-    st.experimental_rerun()
+    base_model = AutoModelForCausalLM.from_pretrained(
+        BASE_MODEL,
+        torch_dtype=torch.float16 if DEVICE == "cuda" else torch.float32
+    )
 
-# 3️⃣ Affichage historique
-if st.session_state.history:
-    st.subheader("💬 Conversation")
-    for exchange in st.session_state.history:
-        st.markdown(f"**User:** {exchange['user']}")
-        st.markdown(f"**Assistant:** {exchange['assistant']}")
-        st.markdown("---")
+    model = PeftModel.from_pretrained(base_model, LORA_PATH)
+    model.to(DEVICE)
+    model.eval()
 
-# 4️⃣ Input utilisateur
-user_input = st.text_input("Entrez votre message:", key="input")
+    return tokenizer, model
 
-if st.button("Envoyer") and user_input.strip():
-    if "arslm_session" in st.session_state:
-        with st.spinner("📝 Génération en cours..."):
-            try:
-                assistant_response = st.session_state.arslm_session.generate(prompt=user_input)
+tokenizer, model = load_model()
 
-                st.session_state.history.append({
-                    "user": user_input,
-                    "assistant": assistant_response,
-                    "timestamp": datetime.now().isoformat()
-                })
+# =========================
+# UI STREAMLIT
+# =========================
+st.title("🧠 ARSLM – MicroLLM SaaS")
+st.write("Le modèle ARSLM est prêt à être testé.")
 
-                st.markdown(f"**Assistant:** {assistant_response}")
-                st.session_state.input = ""
-            except Exception as e:
-                st.error(f"Erreur lors de la génération de réponse: {e}")
+user_input = st.text_area("Entrez un texte pour ARSLM :", height=120)
+
+if st.button("Générer la réponse"):
+    if user_input.strip() == "":
+        st.warning("Veuillez entrer une question.")
     else:
-        st.error("La session ARSLM n'a pas été initialisée correctement.")
+        # PROMPT FINAL
+        prompt = f"""
+{SYSTEM_PROMPT}
 
-# 5️⃣ Sidebar info
-st.sidebar.header("ℹ️ Info")
-st.sidebar.write(f"Nombre d'échanges: {len(st.session_state.history)}")
+Question : {user_input}
+Réponse :
+"""
+
+        inputs = tokenizer(prompt, return_tensors="pt").to(DEVICE)
+
+        with torch.no_grad():
+            outputs = model.generate(
+                **inputs,
+                max_new_tokens=200,
+                do_sample=True,
+                temperature=0.7,
+                top_p=0.9,
+                repetition_penalty=1.2,
+                eos_token_id=tokenizer.eos_token_id,
+                pad_token_id=tokenizer.eos_token_id
+            )
+
+        response = tokenizer.decode(outputs[0], skip_special_tokens=True)
+        response = response.split("Réponse :")[-1].strip()
+
+        st.subheader("Réponse ARSLM :")
+        st.write(response)
