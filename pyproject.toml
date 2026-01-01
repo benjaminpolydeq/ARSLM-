@@ -46,7 +46,7 @@ keywords = [
     "recurrent-neural-networks",
     "conversational-ai",
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dependencies = [
     "numpy>=1.21.0,<2.0.0",
     "torch>=2.0.0",
