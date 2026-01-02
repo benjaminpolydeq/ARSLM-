@@ -1,7 +1,18 @@
 {
-  "buildCommand": "pip install --upgrade pip && pip install -r requirements.txt",
-  "devCommand": "streamlit run streamlit_app.py",
-  "installCommand": "pip install -r requirements.txt",
-  "framework": null,
-  "outputDirectory": "."
+  "builds": [
+    {
+      "src": "apps/streamlit/streamlit_app.py",
+      "use": "@vercel/python",
+      "config": {
+        "pythonVersion": "3.12",
+        "installCommand": "pip install -r apps/streamlit/requirements.txt"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "apps/streamlit/streamlit_app.py"
+    }
+  ]
 }
