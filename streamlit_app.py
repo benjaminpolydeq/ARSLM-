@@ -1,27 +1,58 @@
+# ================================
+# streamlit_app.py – ARSLM isolé
+# ================================
+
 import streamlit as st
-from arslm.profiles import PROFILES
-from arslm.loader import load_model
-from arslm.inference import generate
+import torch
+from transformers import AutoTokenizer, AutoModelForCausalLM
+from peft import PeftModel
 
-st.set_page_config(page_title="ARSLM Multi-Métiers", page_icon="🧠")
+# 🔹 Chemins vers ton modèle LoRA
+MODEL_PATH = "./arslm_lora"
+TOKENIZER_PATH = "./arslm_lora"
 
-st.title("🧠 ARSLM – Assistant IA Multi-Métiers")
+device = "cuda" if torch.cuda.is_available() else "cpu"
 
-profile = st.sidebar.selectbox("Choisir le métier", PROFILES.keys())
-profile_data = PROFILES[profile]
+# 🔹 Charger le tokenizer et le modèle
+@st.cache_resource(show_spinner=True)
+def load_model():
+    tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_PATH)
+    base_model = AutoModelForCausalLM.from_pretrained(MODEL_PATH)
+    model = PeftModel.from_pretrained(base_model, MODEL_PATH)
+    model.to(device)
+    model.eval()
+    return tokenizer, model
 
-st.sidebar.info(profile_data["description"])
+tokenizer, model = load_model()
 
-if profile_data["adapter"] in ["medical", "juridique", "police", "gouvernement"]:
-    st.warning("⚠️ Informations générales – ne remplace pas un professionnel.")
+# 🔹 Fonction pour générer des réponses
+def generate_response(prompt_text, max_length=200, temperature=0.8, top_p=0.9):
+    prompt = f"You are ARSLM, an intelligent English assistant.\nUser: {prompt_text}\nARSLM:"
+    inputs = tokenizer(prompt, return_tensors="pt").to(device)
+    outputs = model.generate(
+        **inputs,
+        max_length=max_length,
+        do_sample=True,
+        temperature=temperature,
+        top_p=top_p,
+        pad_token_id=tokenizer.eos_token_id
+    )
+    response = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    response = response.split("ARSLM:")[-1].strip()
+    return response
 
-model = load_model(profile_data["adapter"])
+# ================================
+# 🔹 Streamlit UI
+# ================================
+st.set_page_config(page_title="ARSLM Test Interface", layout="centered")
+st.title("🤖 ARSLM – Test English Responses")
 
-prompt = st.text_area("Votre question")
+user_input = st.text_area("Enter your message:", "")
 
-if st.button("Envoyer"):
-    with st.spinner("ARSLM réfléchit..."):
-        response = generate(model, prompt)
-    st.success("Réponse")
-    st.write(response)
-
+if st.button("Send"):
+    if user_input.strip() != "":
+        with st.spinner("Generating response..."):
+            reply = generate_response(user_input)
+        st.markdown(f"**ARSLM:** {reply}")
+    else:
+        st.warning("Please enter a message to send.")
