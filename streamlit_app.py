@@ -24,3 +24,4 @@ if st.button("Envoyer"):
         response = generate(model, prompt)
     st.success("Réponse")
     st.write(response)
+
