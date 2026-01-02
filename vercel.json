@@ -1,12 +1,17 @@
 {
+  "version": 3,
+  "name": "arslm-streamlit",
   "builds": [
     {
-      "src": "apps/streamlit/streamlit_app.py",
+      "src": "apps/streamlit/requirements.txt",
       "use": "@vercel/python",
       "config": {
-        "pythonVersion": "3.12",
-        "installCommand": "pip install -r apps/streamlit/requirements.txt"
+        "runtime": "python3.12"
       }
+    },
+    {
+      "src": "apps/streamlit/streamlit_app.py",
+      "use": "@vercel/python"
     }
   ],
   "routes": [
@@ -14,5 +19,8 @@
       "src": "/(.*)",
       "dest": "apps/streamlit/streamlit_app.py"
     }
-  ]
+  ],
+  "env": {
+    "PYTHONUNBUFFERED": "1"
+  }
 }
