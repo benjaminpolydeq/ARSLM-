@@ -1,4 +1,4 @@
-%%writefile streamlit_app.py
+
 
 import streamlit as st
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
@@ -54,3 +54,4 @@ if generator:
             st.warning('Please enter a prompt.')
 else:
     st.warning('Model not loaded. Please ensure fine-tuning was successful and the model directory exists.')
+
