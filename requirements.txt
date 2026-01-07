@@ -1,29 +1,5 @@
-# Core dependencies
-numpy>=1.21.0,<2.0.0
+streamlit>=1.26.0
+transformers>=4.40.0
 torch>=2.0.0
-transformers>=4.30.0
-tokenizers>=0.13.0
-sentencepiece>=0.1.99
-
-# API
-fastapi>=0.100.0
-uvicorn[standard]>=0.23.0
-pydantic>=2.0.0
-pydantic-settings>=2.0.0
-python-multipart>=0.0.6
-aiofiles>=23.0.0
-httpx>=0.24.0
-
-# CLI
-click>=8.1.0
-rich>=13.0.0
-
-# Utils
-tqdm>=4.65.0
-requests>=2.31.0
-pyyaml>=6.0
-python-dotenv>=1.0.0
-loguru>=0.7.0
-
-# Dev (optional)
-flake8==6.0.0  # compatible Python 3.12
+peft>=0.10.0
+accelerate>=0.28.0
