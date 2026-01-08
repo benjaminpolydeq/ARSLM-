@@ -1,4 +1,17 @@
 import streamlit as st
+import sys
+
+# Patch pour compatibilité Python 3.13 avec transformers
+try:
+    from transformers.generation import GenerationMixin
+except ImportError:
+    try:
+        from transformers.generation.utils import GenerationMixin
+        sys.modules['transformers.generation'].GenerationMixin = GenerationMixin
+    except Exception as e:
+        st.error(f"⚠️ Problème de compatibilité: {e}")
+        st.info("Essayez: pip install transformers==4.44.2 --upgrade")
+
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import torch
 import os
