@@ -1,4 +1,4 @@
-# Python virtual env
+# Python virtual env / Environnements virtuels Python
 .venv/
 venv/
 
@@ -13,16 +13,5 @@ __pycache__/
 
 # OS / éditeurs
 .DS_Store
-# Python virtual env
-.venv/
-venv/
-__pycache__/
-*.pyc
-*.pyo
-
-# Pip / dist
-*.dist-info/
-=*
-
-# OS / éditeurs
-.DS_Store
+Thumbs.db
+*.swp
