@@ -1,7 +1,27 @@
-streamlit
-transformers
-torch
-accelerate
-sentencepiece
-protobuf
-gradio
+# Core Dependencies
+streamlit>=1.28.0
+transformers>=4.35.0
+torch>=2.0.0
+tokenizers>=0.15.0
+
+# Optimizations
+accelerate>=0.24.0
+sentencepiece>=0.1.99
+protobuf>=3.20.0
+
+# Utilities
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Optional: For better performance
+# bitsandbytes>=0.41.0  # Pour quantization 8-bit/4-bit
+# xformers>=0.0.22      # Pour optimisation mémoire
+
+# LoRA Fine-tuning (si utilisé)
+peft>=0.6.0
+
+# Monitoring
+psutil>=5.9.0
+
+# For compatibility
+typing-extensions>=4.8.0
