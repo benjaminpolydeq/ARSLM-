@@ -1,27 +1,33 @@
-# Core Dependencies
-streamlit>=1.28.0
-transformers>=4.35.0
-torch>=2.0.0
-tokenizers>=0.15.0
+# Core Dependencies - Versions compatibles Python 3.13
+streamlit>=1.28.0,<2.0.0
+transformers>=4.41.0,<4.46.0
+torch>=2.1.0,<2.5.0
+tokenizers>=0.19.0
 
 # Optimizations
-accelerate>=0.24.0
-sentencepiece>=0.1.99
-protobuf>=3.20.0
+accelerate>=0.30.0
+sentencepiece>=0.2.0
+protobuf>=4.25.0
 
 # Utilities
-numpy>=1.24.0
-pandas>=2.0.0
+numpy>=1.26.0,<2.0.0
+pandas>=2.0.0,<3.0.0
 
 # Optional: For better performance
-# bitsandbytes>=0.41.0  # Pour quantization 8-bit/4-bit
-# xformers>=0.0.22      # Pour optimisation mémoire
+# bitsandbytes>=0.43.0  # Pour quantization 8-bit/4-bit
+# xformers>=0.0.24      # Pour optimisation mémoire
 
 # LoRA Fine-tuning (si utilisé)
-peft>=0.6.0
+peft>=0.11.0
 
 # Monitoring
 psutil>=5.9.0
 
-# For compatibility
-typing-extensions>=4.8.0
+# For compatibility with Python 3.13
+typing-extensions>=4.12.0
+safetensors>=0.4.0
+huggingface-hub>=0.23.0
+
+# Fix pour GenerationMixin
+# Si le problème persiste, décommentez cette ligne:
+# git+https://github.com/huggingface/transformers.git@main
